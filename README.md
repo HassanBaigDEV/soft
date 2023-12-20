@@ -64,7 +64,7 @@ If you don't already have an Apache local environment with PHP and MySQL, use on
 -   Linux & Mac: https://updivision.com/blog/post/guide-what-is-lamp-and-how-to-install-it-on-ubuntu-and-macos
 
 Also, you will need to install Composer: https://getcomposer.org/doc/00-intro.md  
-And Laravel: https://laravel.com/docs/10.x
+And Laravel: https://laravel.com/docs/10.x -->
 
 
 ## Installation
@@ -81,7 +81,7 @@ And Laravel: https://laravel.com/docs/10.x
 Register a user or login with default user **admin@softui.com** and password **secret** from your database and start testing (make sure to run the migrations and seeders for these credentials to be available).
 
 Besides the dashboard, the auth pages, the billing and table pages, there is also has an edit profile page. All the necessary files are installed out of the box and all the needed routes are added to `routes/web.php`. Keep in mind that all of the features can be viewed once you login using the credentials provided or by registering your own user. 
-
+<!-- 
 ## Versions
 [<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/html-logo.jpg?raw=true" width="60" height="60" />](https://demos.creative-tim.com/argon-dashboard-pro/pages/dashboards/dashboard.html?ref=sudl-readme)
 [<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/laravel_logo.png?raw=true" width="60" height="60" />](https://argon-dashboard-pro-laravel.creative-tim.com/?ref=sudl-readme)
@@ -101,7 +101,7 @@ Besides the dashboard, the auth pages, the billing and table pages, there is als
 [View More](https://soft-ui-dashboard-laravel.creative-tim.com/dashboard)
 
 ## Documentation
-The documentation for the Soft UI Dashboard Laravel is hosted at our [website](https://soft-ui-dashboard-laravel.creative-tim.com/documentation/getting-started/overview.html).
+The documentation for the Soft UI Dashboard Laravel is hosted at our [website](https://soft-ui-dashboard-laravel.creative-tim.com/documentation/getting-started/overview.html). -->
 
 ### Login
 If you are not logged in you can only access this page or the Sign Up page. The default url takes you to the login page where you use the default credentials **admin@softui.com** with the password **secret**. Logging in is possible only with already existing credentials. For this to work you should have run the migrations.
@@ -403,7 +403,7 @@ database
 |       console.php
 |       web.php
 ```
-
+<!-- 
 ## Browser Support
 At present, we officially aim to support the last two versions of the following browsers:
 
