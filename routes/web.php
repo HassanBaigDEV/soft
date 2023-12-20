@@ -9,6 +9,10 @@ use App\Http\Controllers\SessionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,22 +94,47 @@ Route::get('/login', function () {
 })->name('login');
 
 
+// Routes for Organizations
+Route::middleware(['auth'])->group(function () {
+	Route::get('/organizations/create', [OrganizationController::class, 'create'])->name('organizations.create');
+	Route::post('/organizations', [OrganizationController::class, 'store'])->name('organizations.store');
+	Route::get('/organizations/{organization}/edit', [OrganizationController::class, 'edit'])->name('organizations.edit');
+	Route::put('/organizations/{organization}', [OrganizationController::class, 'update'])->name('organizations.update');
+	Route::delete('/organizations/{organization}', [OrganizationController::class, 'destroy'])->name('organizations.destroy');
+});
+
+// Routes for Teams
 Route::middleware(['auth', 'can:createTeam,organization'])->group(function () {
-	// Routes that require permission to createTeam in the given organization
+	Route::get('/organizations/{organization}/teams/create', [TeamController::class, 'create'])->name('teams.create');
+	Route::post('/organizations/{organization}/teams', [TeamController::class, 'store'])->name('teams.store');
 });
 
 Route::middleware(['auth', 'can:editProject,team'])->group(function () {
-	// Routes that require permission to editProject in the given team
+	Route::get('/teams/{team}/edit', [TeamController::class, 'edit'])->name('teams.edit');
+	Route::put('/teams/{team}', [TeamController::class, 'update'])->name('teams.update');
+	Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.destroy');
 });
 
+// Routes for Projects
 Route::middleware(['auth', 'can:manageTasks,project'])->group(function () {
-	// Routes that require permission to manageTasks in the given project
+	Route::get('/teams/{team}/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+	Route::post('/teams/{team}/projects', [ProjectController::class, 'store'])->name('projects.store');
+});
+
+Route::middleware(['auth'])->group(function () {
+	Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+	Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
+	Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+});
+
+// Routes for Tasks
+Route::middleware(['auth', 'can:updateTask,task'])->group(function () {
+	Route::get('/projects/{project}/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
+	Route::post('/projects/{project}/tasks', [TaskController::class, 'store'])->name('tasks.store');
 });
 
 Route::middleware(['auth', 'can:updateTask,task'])->group(function () {
-	// Routes that require permission to updateTask in the given task
-});
-
-Route::middleware(['auth', 'can:deleteTask,task'])->group(function () {
-	// Routes that require permission to deleteTask in the given task
+	Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+	Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+	Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 });
