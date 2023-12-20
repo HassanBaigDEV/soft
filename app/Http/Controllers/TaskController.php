@@ -32,4 +32,22 @@ class TaskController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Task created successfully.');
     }
+    public function edit(Task $task)
+    {
+        return view('tasks.edit', compact('task'));
+    }
+
+    public function update(Project $project)
+    {
+        // Validation and update logic here
+        $this->authorize('manageTasks', $project);
+        return redirect()->route('dashboard')->with('success', 'Task updated successfully.');
+    }
+
+    public function destroy(Project $project)
+    {
+        // Delete logic here
+        $this->authorize('manageTasks', $project);
+        return redirect()->route('dashboard')->with('success', 'Task deleted successfully.');
+    }
 }

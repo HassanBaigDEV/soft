@@ -31,4 +31,29 @@ class TeamController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Team created successfully.');
     }
+    public function edit(Team $team)
+    {
+        return view('teams.edit', compact('team'));
+    }
+
+    public function update(Request $request, Organization $organization)
+    {
+        // Validation and update logic here
+        $this->authorize('createTeam', $organization);
+        $organizations = auth()->user()->organizations;
+
+
+
+        return redirect()->route('dashboard')->with('success', 'Team updated successfully.');
+    }
+
+    public function destroy(Organization $organization)
+    {
+        // Delete logic here
+        $this->authorize('createTeam', $organization);
+        $organizations = auth()->user()->organizations;
+
+
+        return redirect()->route('dashboard')->with('success', 'Team deleted successfully.');
+    }
 }

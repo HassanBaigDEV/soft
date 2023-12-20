@@ -34,4 +34,26 @@ class ProjectController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Project created successfully.');
     }
+
+    public function edit(Project $project, Team $team)
+    {
+
+        return view('projects.edit', compact('project'));
+    }
+
+    public function update(Team $team)
+    {
+        // Validation and update logic here
+        $this->authorize('editProject', $team);
+
+        return redirect()->route('dashboard')->with('success', 'Project updated successfully.');
+    }
+
+    public function destroy(Team $team)
+    {
+        // Delete logic here
+        $this->authorize('editProject', $team);
+
+        return redirect()->route('dashboard')->with('success', 'Project deleted successfully.');
+    }
 }
