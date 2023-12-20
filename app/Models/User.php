@@ -44,5 +44,36 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
+    /**
+     * User belongs to many organizations.
+     */
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'user_organization');
+    }
+
+    /**
+     * User belongs to many teams.
+     */
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'user_team');
+    }
+
+    /**
+     * User has many projects.
+     */
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    /**
+     * User has many tasks.
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'assigned_to');
+    }
 }

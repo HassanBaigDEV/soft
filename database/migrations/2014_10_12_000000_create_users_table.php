@@ -23,6 +23,10 @@ class CreateUsersTable extends Migration
             $table->string('about_me')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            // $table->enum('role', ['owner', 'team_head', 'member'])->default('member');
+            // Migration file for users table
+
+
         });
     }
 
