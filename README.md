@@ -1,4 +1,4 @@
-# [Soft UI Dashboard Laravel](https://soft-ui-dashboard-laravel.creative-tim.com/login)
+<!-- # [Soft UI Dashboard Laravel](https://soft-ui-dashboard-laravel.creative-tim.com/login)
 
 ![version](https://img.shields.io/badge/version-1.0.0-blue.svg) 
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
@@ -455,4 +455,4 @@ Updivision Blog: <https://updivision.com/blog/?ref=sudl-readme>
 ## Credits
 
 - [Creative Tim](https://creative-tim.com/?ref=sudl-readme)
-- [UPDIVISION](https://updivision.com)
+- [UPDIVISION](https://updivision.com) -->
