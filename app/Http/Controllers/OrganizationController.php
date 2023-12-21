@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrganizationController extends Controller
 {
@@ -14,18 +15,33 @@ class OrganizationController extends Controller
     }
 
     public function store(Request $request)
+
     {
-        $attributes = $request->validate([
+        // Validate the request data
+        $validatedData = $request->validate([
             'name' => ['required', 'max:255'],
+            'owner_id' => ['required', ''],
             // Add other validation rules as needed
         ]);
 
-        $attributes['owner_id'] = auth()->id(); // Set the organization owner ID
+        // Retrieve validated data
+        $name = $validatedData['name'];
 
-        $organization = Organization::create($attributes);
+        // Set the organization owner ID
+        $ownerId = $validatedData['owner_id'];
 
-        return redirect()->route('dashboard')->with('success', 'Organization created successfully.');
+        // Create the organization
+        return DB::unprepared("Insert into organizations (name, owner_id) values ('$name','$ownerId')");
+
+        // return Organization::create([
+        //     'name' => $name,
+        //     'owner_id' => $ownerId,
+        //     // Add other fields as needed
+        // ]);
+
+        // return redirect()->route('dashboard')->with('success', 'Organization created successfully.');
     }
+
 
     public function edit(Organization $organization)
     {
@@ -35,7 +51,7 @@ class OrganizationController extends Controller
     public function update(Request $request, Organization $organization)
     {
         // Validation and update logic here
-        
+
 
         return redirect()->route('dashboard')->with('success', 'Organization updated successfully.');
     }
