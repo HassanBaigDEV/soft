@@ -14,6 +14,7 @@ class Organization extends Model
 
     protected $fillable = [
         'owner_id',
+        'name',
         // Additional Fields
         'members',
         'teams',
