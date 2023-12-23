@@ -17,5 +17,17 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class
         ]);
+        $this->call([
+            OrganizationSeeder::class
+        ]);
+        $this->call([
+            TeamSeeder::class
+        ]);
+        $this->call([
+            ProjectSeeder::class
+        ]);
+        $this->call([
+            TaskSeeder::class
+        ]);
     }
 }
