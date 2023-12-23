@@ -39,8 +39,8 @@ class TeamController extends Controller
     public function update(Request $request, Organization $organization)
     {
         // Validation and update logic here
-        $this->authorize('createTeam', $organization);
         $organizations = auth()->user()->organizations;
+        $this->authorize('createTeam', $organization);
 
 
 
@@ -50,8 +50,8 @@ class TeamController extends Controller
     public function destroy(Organization $organization)
     {
         // Delete logic here
-        $this->authorize('createTeam', $organization);
         $organizations = auth()->user()->organizations;
+        $this->authorize('createTeam', $organization);
 
 
         return redirect()->route('dashboard')->with('success', 'Team deleted successfully.');

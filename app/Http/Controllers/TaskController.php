@@ -50,4 +50,14 @@ class TaskController extends Controller
         $this->authorize('manageTasks', $project);
         return redirect()->route('dashboard')->with('success', 'Task deleted successfully.');
     }
+
+    // view tasks of a project from the project id in the url
+    public function view(Project $project)
+    {
+        // $this->authorize('manageTasks', $project);
+        $tasks = $project->tasks;
+        // return $tasks;
+
+        return view('tasks-index', compact('tasks'));
+    }
 }

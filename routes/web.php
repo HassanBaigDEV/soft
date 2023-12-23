@@ -86,8 +86,8 @@ Route::group(['middleware' => 'guest'], function () {
 	Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 });
 
-//routes for projects (this is an app like asana/jira)
 
+//routes for projects
 
 Route::get('/login', function () {
 	return view('session/login-session');
@@ -122,9 +122,11 @@ Route::middleware(['auth', 'can:manageTasks,project'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+	Route::get('/projects', [ProjectController::class, 'view'])->name('projects.view');
 	Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
 	Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
 	Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+	Route::get('/projects/{project}/tasks', [TaskController::class, 'view'])->name('tasks.index');
 });
 
 // Routes for Tasks

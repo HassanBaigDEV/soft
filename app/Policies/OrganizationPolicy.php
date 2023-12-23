@@ -9,8 +9,10 @@ use App\Models\Organization;
 
 class OrganizationPolicy
 {
-    public function createTeam(User $user, Organization $organization)
+
+    public function createTeam($user, Organization $organization)
     {
-        return $user->id === $organization->owner_id;
+        // Check if the user is the owner of the specified organization
+        return $organization->owner_id === $user->id;
     }
 }

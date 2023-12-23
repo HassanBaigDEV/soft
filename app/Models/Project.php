@@ -13,6 +13,8 @@ class Project extends Model
         'team_id',
         'name',
         'description',
+        'members',
+        'status',
         'start_date',
         'end_date',
         // Additional Fields

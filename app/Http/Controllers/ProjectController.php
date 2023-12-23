@@ -52,8 +52,16 @@ class ProjectController extends Controller
     public function destroy(Team $team)
     {
         // Delete logic here
+        
         $this->authorize('editProject', $team);
 
         return redirect()->route('dashboard')->with('success', 'Project deleted successfully.');
     }
+    public function view()
+    {
+        $projects = Project::all();
+        return view('projects-view', compact('projects'));
+    }
+
+    
 }

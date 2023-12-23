@@ -13,6 +13,8 @@ class CreateProjectsTable extends Migration
             $table->foreignId('team_id')->constrained('teams');
             $table->string('name');
             $table->text('description')->nullable();
+            $table->json('members')->nullable();
+            $table->enum('status', ['not started', 'in progress', 'completed', 'cancelled'])->default('not started');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             // Additional Fields

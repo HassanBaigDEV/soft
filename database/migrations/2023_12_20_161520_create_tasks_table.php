@@ -14,7 +14,7 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->date('due_date')->nullable();
-            $table->enum('status', ['not_started', 'in_progress', 'completed'])->default('not_started');
+            $table->enum('status', ['not started', 'in progress', 'completed', 'cancelled'])->default('not started');
             $table->foreignId('assigned_to')->nullable()->constrained('users');
             // Additional Fields
             // You can add more fields as needed
