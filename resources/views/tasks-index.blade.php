@@ -12,17 +12,17 @@
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="d-flex justify-content-end mb-3">
-                        <a href="{{ route('tasks.create', ['project' => $project->id]) }}" class="btn btn-success">
+                        <a href="{{ route('tasks.create', ['project' => $project->id]) }}" class="btn btn-success" style="margin-right:10px">
                             <i class="fa fa-plus"></i> New Task
                         </a>
                        
                         </div>
-                        <div class="table-responsive p-0">
+                        <div class="table-responsive p-0" style="overflow-x: hidden">
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Task</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Due Date</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Assigned To</th>
@@ -32,6 +32,9 @@
                                 <tbody>
                                     @foreach($tasks as $task)
                                     <tr>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $task->name }}</p>
+                                        </td>
                                         <td class="text-center">
                                             @if($task->status === 'not started')
                                             <span class="badge badge-sm bg-gradient-warning">Not Started</span>
@@ -43,34 +46,31 @@
                                             <span class="badge badge-sm bg-gradient-danger">Cancelled</span>
                                             @endif
                                         </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{ $task->name }}</p>
-                                        </td>
                                         <td class="text-xs font-weight-bold mb-0">{{ $task->description }}</td>
                                         <td class="text-center">{{ $task->due_date }}</td>
                                         <td class="text-center">{{ $task->assigned_to }}</td>
                                         <td class="text-center">
-                                        <div class="dropdown">
+                                            <div class="dropdown">
                                                 <a href="#" class="btn btn-link text-secondary mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
                                                     <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
                                                 </a>
                                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                                                     <li>
-                                                        <a href="{{ route('tasks.edit', $task->id) }}" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit project">
-                                                            Edit
-                                                        </a>
+                                            <a href="{{ route('tasks.edit', $task->id) }}" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit task">
+                                                Edit
+                                            </a>
                                                     </li>
                                                     <li>
-                                                    <form method="post" action="{{ route('tasks.destroy', ['project' => $project, 'task' => $task->id]) }}">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="dropdown-item text-secondary font-weight-bold text-xs border-none background-none" data-toggle="tooltip" data-original-title="Delete project">
-                                                                Delete
-                                                            </button>
-                                                        </form>
-                                                    </li>                                      
-                                                </ul>
-                                              </div>
+                                                        
+                                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="">
+                                                @csrf
+                                                
+                                                @method('DELETE')
+                                                <button type="submit" class="dropdown-item text-secondary font-weight-bold text-xs border-none background-none" data-toggle="tooltip" data-original-title="Delete project">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                                    </li>
                                         </td>
                                     </tr>
                                     @endforeach

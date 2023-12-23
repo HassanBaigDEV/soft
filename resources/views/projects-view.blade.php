@@ -12,7 +12,7 @@
                       </div>
                       <div class="card-body px-0 pt-0 pb-2">
                         <div class="d-flex justify-content-end mb-3">
-                            <a href="/project/create" class="btn btn-success">
+                            <a href="/project/create" class="btn btn-success" style="margin-right:10px">
                                 <i class="fa fa-plus"></i> New Project
                             </a>
                         </div>

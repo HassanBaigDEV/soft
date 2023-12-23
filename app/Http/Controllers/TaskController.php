@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class TaskController extends Controller
 {
@@ -65,10 +67,22 @@ class TaskController extends Controller
         return redirect()->route('dashboard')->with('success', 'Task updated successfully.');
     }
 
-    public function destroy(Project $project, Task $task)
+    public function destroy(Task $task)
     {
-        $task->delete();
-        return redirect()->route('tasks.index', compact('project'));
+        
+
+        try {
+            DB::beginTransaction();
+            $task->delete();
+            DB::commit();
+            return redirect()->back()->with('success', 'Task deleted successfully.');
+        } catch (\Exception $e) {
+            // An error occurred, rollback the transaction
+            DB::rollback();
+
+            // Redirect with error mesage
+            return redirect()->back()->with('error', 'Failed to delete task.');
+        }
     }
 
 
