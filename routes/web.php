@@ -108,6 +108,7 @@ Route::middleware(['auth', 'can:createTeam,organization'])->group(function () {
 	Route::post('/organizations/{organization}/teams', [TeamController::class, 'store'])->name('teams.store');
 });
 
+Route::get('/project/create', [ProjectController::class, 'create'])->name('projects.create');
 Route::middleware(['auth', 'can:editProject,team'])->group(function () {
 	Route::get('/teams/{team}/edit', [TeamController::class, 'edit'])->name('teams.edit');
 	Route::put('/teams/{team}', [TeamController::class, 'update'])->name('teams.update');
@@ -116,11 +117,12 @@ Route::middleware(['auth', 'can:editProject,team'])->group(function () {
 
 // Routes for Projects
 Route::middleware(['auth', 'can:manageTasks,project'])->group(function () {
-	Route::get('/teams/{team}/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+	// Route::get('/teams/{team}/projects/create', [ProjectController::class, 'create'])->name('projects.create');
 	Route::post('/teams/{team}/projects', [ProjectController::class, 'store'])->name('projects.store');
 });
 
 Route::middleware(['auth'])->group(function () {
+
 	Route::get('/projects', [ProjectController::class, 'view'])->name('projects.view');
 	Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
 	Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');

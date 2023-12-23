@@ -10,6 +10,7 @@ class CreateTeamsTable extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->foreignId('organization_id')->constrained('organizations');
             $table->foreignId('team_head')->constrained('users');
             // Additional Fields

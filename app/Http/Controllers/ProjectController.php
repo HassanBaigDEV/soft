@@ -13,11 +13,21 @@ class ProjectController extends Controller
 {
     public function create(Team $team)
     {
-        $this->authorize('editProject', $team);
+        // $this->authorize('editProject', $team);
         // Fetch user's teams to populate team dropdown
-        $teams = auth()->user()->teams;
+        $user = auth()->user();
 
-        return view('projects.create', compact('teams'));
+        // Retrieve teams where the user is a member
+        $teams = Team::whereJsonContains('members', ['id' => $user->id, 'name' => $user->name])->get();
+        // $allMembers = [];
+        // foreach ($teams as $team) {
+        //     // Assuming 'members' is the column containing the JSON data in the teams table
+        //     $membersJson = $team->members;
+        //     $members = json_decode($membersJson, true);
+        //     $allMembers = array_merge($allMembers, $members);
+        // }
+        // return $allMembers;
+        return view('project-create', compact('teams'));
     }
 
     public function store(Request $request, Team $team)
@@ -52,7 +62,7 @@ class ProjectController extends Controller
     public function destroy(Team $team)
     {
         // Delete logic here
-        
+
         $this->authorize('editProject', $team);
 
         return redirect()->route('dashboard')->with('success', 'Project deleted successfully.');
@@ -63,5 +73,5 @@ class ProjectController extends Controller
         return view('projects-view', compact('projects'));
     }
 
-    
+ 
 }
