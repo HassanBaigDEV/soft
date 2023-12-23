@@ -27,7 +27,7 @@ class ProjectController extends Controller
         //     $allMembers = array_merge($allMembers, $members);
         // }
         // return $allMembers;
-        return view('project-create', compact('teams', 'allMembers'));
+        return view('project-create', compact('teams'));
     }
 
     public function store(Request $request, Team $team)
