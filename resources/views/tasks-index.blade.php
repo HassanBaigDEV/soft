@@ -12,12 +12,10 @@
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="d-flex justify-content-end mb-3">
-                            {{-- <a href="{{ route('tasks.create', ['project_id' => $project->id]) }}" class="btn btn-success">
-                                <i class="fa fa-plus"></i> New Task
-                            </a> --}}
-                            <a href="#" class="btn btn-success">
-                                <i class="fa fa-plus"></i> New Task
-                            </a>                        
+                        <a href="{{ route('tasks.create', ['project' => $project->id]) }}" class="btn btn-success">
+                            <i class="fa fa-plus"></i> New Task
+                        </a>
+                       
                         </div>
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">

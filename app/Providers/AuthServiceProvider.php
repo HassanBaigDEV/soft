@@ -26,6 +26,14 @@ class AuthServiceProvider extends ServiceProvider
         Project::class => ProjectPolicy::class,
         Task::class => TaskPolicy::class,
     ];
+    // app/Providers/AuthServiceProvider.php
+
+
+
+    // protected $policies = [
+    //     Project::class => TaskPolicy::class,
+    // ];
+
     /**
      * Register any authentication / authorization services.
      *

@@ -131,8 +131,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Routes for Tasks
+Route::get('/projects/{project}/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
 Route::middleware(['auth', 'can:updateTask,task'])->group(function () {
-	Route::get('/projects/{project}/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
 	Route::post('/projects/{project}/tasks', [TaskController::class, 'store'])->name('tasks.store');
 });
 
