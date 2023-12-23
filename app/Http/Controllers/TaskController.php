@@ -30,10 +30,11 @@ class TaskController extends Controller
             // 'member_id.*' => 'exists:users,id',
         ]);
 
-        $ass= json_decode($attributes['assigned_to']);
-        $assigi
+        $assigned = json_decode($attributes['assigned_to']);
+        $assigined = $attributes['members'] = json_encode($assigned);
+        return $assigined;
 
-        
+
 
 
 
