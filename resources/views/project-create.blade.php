@@ -162,18 +162,18 @@
     // Event listener for team select change
     document.getElementById('team').addEventListener('change', function () {
         // Get the selected team ID
-        const selectedTeamId = this.value;
-        
-
-        //get the members of the selected team
-        const selectedTeam = teams.find(team => team.id == selectedTeamId);
-        const teamMembers = JSON.parse(selectedTeam.members); 
-        // console.log(teamMembers)
-
         const membersSelectElement = document.getElementById('members');
         membersSelectElement.innerHTML = '';
+        const selectedTeamId = this.value;
+        if (!selectedTeamId) {
+            return;
+        }
 
-   
+        const selectedTeam = teams.find(team => team.id == selectedTeamId);
+        const teamMembers = JSON.parse(selectedTeam.members); 
+
+        membersSelectElement.innerHTML = '';
+
         // Loop through the members and add the options
         Object.entries(teamMembers).forEach(([key, value]) => {
             console.log(key, value);
@@ -182,7 +182,6 @@
     optionElement.text = `${value.name}`; 
     membersSelectElement.appendChild(optionElement);    
     });
-            
     });
 </script>
 
