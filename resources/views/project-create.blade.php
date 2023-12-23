@@ -157,16 +157,18 @@
 <script>
     // Get the teams
     const teams = @json($teams);
+ 
 
     // Event listener for team select change
     document.getElementById('team').addEventListener('change', function () {
         // Get the selected team ID
         const selectedTeamId = this.value;
+        
 
         //get the members of the selected team
         const selectedTeam = teams.find(team => team.id == selectedTeamId);
         const teamMembers = JSON.parse(selectedTeam.members); 
-        console.log(teamMembers)
+        // console.log(teamMembers)
 
         const membersSelectElement = document.getElementById('members');
         membersSelectElement.innerHTML = '';
@@ -176,11 +178,8 @@
         Object.entries(teamMembers).forEach(([key, value]) => {
             console.log(key, value);
     const optionElement = document.createElement('option');
-    optionElement.value = value; // Use the value property of the object property
-    if(key=='name'){
-        optionElement.text = `${value}`; // Display key and value in the option text
-    }    
-    // optionElement.text = `${key}: ${value}`; // Display key and value in the option text
+    optionElement.value = value.id; 
+    optionElement.text = `${value.name}`; 
     membersSelectElement.appendChild(optionElement);    
     });
             

@@ -15,10 +15,12 @@ class ProjectController extends Controller
     {
         // $this->authorize('editProject', $team);
         // Fetch user's teams to populate team dropdown
-        $user = auth()->user();
+        // $user = auth()->user();
 
         // Retrieve teams where the user is a member
-        $teams = Team::whereJsonContains('members', ['id' => $user->id, 'name' => $user->name])->get();
+        // $teams = Team::whereJsonContains('members', ['id' => $user->id, 'name' => $user->name])->get();
+
+
         // $allMembers = [];
         // foreach ($teams as $team) {
         //     // Assuming 'members' is the column containing the JSON data in the teams table
@@ -27,6 +29,32 @@ class ProjectController extends Controller
         //     $allMembers = array_merge($allMembers, $members);
         // }
         // return $allMembers;
+        // return view('project-create', compact('teams'));
+
+        $user = auth()->user();
+        $allTeams = Team::all(); // Get all teams
+
+        $teams = [];
+
+        foreach ($allTeams as $team) {
+            $teamMembers = json_decode($team->members, true);
+
+            // Check if the user is a member of the team
+            $isUserMember = collect($teamMembers)->contains(function ($member) use ($user) {
+                return $member['id'] === $user->id;
+            });
+
+            if ($isUserMember) {
+                // Filter team members based on user ID
+                $filteredMembers = collect($teamMembers)->filter(function ($member) use ($user) {
+                    return $member['id'] === $user->id;
+                })->values()->toArray();
+
+                $team->filteredMembers = $filteredMembers;
+                $teams[] = $team;
+            }
+        }
+
         return view('project-create', compact('teams'));
     }
 
@@ -72,6 +100,4 @@ class ProjectController extends Controller
         $projects = Project::all();
         return view('projects-view', compact('projects'));
     }
-
- 
 }
