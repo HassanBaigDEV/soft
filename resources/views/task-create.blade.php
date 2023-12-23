@@ -4,7 +4,7 @@
 
 <div class="container-fluid py-4">
     <h2>Create Task</h2>
-    <form method="post" action="">
+    <form method="post" action="{{ route('tasks.store', ['project' => $project->id]) }}">
         @csrf
         <div class="row">
             <div class="col-md-6">
@@ -25,7 +25,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="team">Select Members</label>
-                    <select class="form-control" id="member" name="member_id[]" multiple required>
+                    <select class="form-control" id="member" name="member_id[]" >
                         <option value="">Select Member</option>
                         @if($project)
                                 @php

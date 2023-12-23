@@ -50,16 +50,27 @@
                                         <td class="text-center">{{ $task->due_date }}</td>
                                         <td class="text-center">{{ $task->assigned_to }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('tasks.edit', $task->id) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit task">
-                                                Edit
-                                            </a>
-                                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-link text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete task">
-                                                    Delete
-                                                </button>
-                                            </form>
+                                        <div class="dropdown">
+                                                <a href="#" class="btn btn-link text-secondary mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                                                    <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                                                    <li>
+                                                        <a href="{{ route('tasks.edit', $task->id) }}" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit project">
+                                                            Edit
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                    <form method="post" action="{{ route('tasks.destroy', ['project' => $project, 'task' => $task->id]) }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="dropdown-item text-secondary font-weight-bold text-xs border-none background-none" data-toggle="tooltip" data-original-title="Delete project">
+                                                                Delete
+                                                            </button>
+                                                        </form>
+                                                    </li>                                      
+                                                </ul>
+                                              </div>
                                         </td>
                                     </tr>
                                     @endforeach
