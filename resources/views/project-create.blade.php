@@ -144,6 +144,7 @@ document.getElementById('team').addEventListener('change', function () {
     membersSelectElement.innerHTML = '';
 
     const selectedTeamId = this.value;
+    
     if (!selectedTeamId) {
         return;
     }

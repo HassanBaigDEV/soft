@@ -111,6 +111,7 @@ Route::middleware(['auth', 'can:createTeam,organization'])->group(function () {
 Route::middleware(['auth',])->group(function () {
 	Route::get('/project/create', [ProjectController::class, 'create'])->name('projects.create');
 	Route::post('/project', [ProjectController::class, 'store'])->name('projects.store');
+	Route::get('/teams', [TeamController::class, 'view'])->name('teams.view');
 	Route::get('/teams/{team}/edit', [TeamController::class, 'edit'])->name('teams.edit');
 	Route::put('/teams/{team}', [TeamController::class, 'update'])->name('teams.update');
 	Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.destroy');

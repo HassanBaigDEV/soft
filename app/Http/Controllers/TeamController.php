@@ -56,4 +56,34 @@ class TeamController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Team deleted successfully.');
     }
+    public function view(Team $team)
+    {
+        $user = auth()->user();
+        $allTeams = Team::all();
+
+        $teams = [];
+
+        foreach ($allTeams as $team) {
+            $teamMembers = json_decode($team->members, true);
+
+
+            // Check if the user is a member of the team
+            $isUserMember = collect($teamMembers)->contains(function ($member) use ($user) {
+                return $member['id'] === $user->id;
+            });
+
+            if ($isUserMember) {
+                
+                // Filter team members based on user ID
+                $filteredMembers = collect($teamMembers)->filter(function ($member) use ($user) {
+                    return $member['id'] === $user->id;
+                })->values()->toArray();
+
+                $team->filteredMembers = $filteredMembers;
+                $teams[] = $team;
+            }
+        }
+
+        return view('teams-view', compact('teams'));
+    }
 }
