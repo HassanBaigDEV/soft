@@ -22,7 +22,6 @@
                                       <tr>
                                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project</th>
                                           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Role</th>
                                           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Start Date</th>
                                           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">End Date</th>
                                           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
@@ -46,7 +45,6 @@
                                                 <span class="badge badge-sm bg-gradient-danger">Cancelled</span>
                                                 @endif
                                             </td>
-                                          <td class="text-xs font-weight-bold mb-0">{{ $project->role }}</td>
                                           <td class="text-center">{{ $project->start_date }}</td>
                                           <td class="text-center">{{ $project->end_date }}</td>
                                           <td class="text-center">
