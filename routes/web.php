@@ -109,7 +109,6 @@ Route::middleware(['auth', 'can:createTeam,organization'])->group(function () {
 });
 
 Route::get('/project/create', [ProjectController::class, 'create'])->name('projects.create');
-Route::get('/get-members/{teamId}', [ProjectController::class,'getMembers'])->name('getMembers');
 Route::middleware(['auth', 'can:editProject,team'])->group(function () {
 	Route::get('/teams/{team}/edit', [TeamController::class, 'edit'])->name('teams.edit');
 	Route::put('/teams/{team}', [TeamController::class, 'update'])->name('teams.update');

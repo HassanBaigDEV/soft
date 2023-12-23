@@ -155,7 +155,7 @@
 </div>
 <!-- Include the following JavaScript code at the end of your Blade file -->
 <script>
-    // Get the teams and allMembers data from PHP variables
+    // Get the teams
     const teams = @json($teams);
 
     // Event listener for team select change
@@ -163,6 +163,7 @@
         // Get the selected team ID
         const selectedTeamId = this.value;
 
+        //get the members of the selected team
         const selectedTeam = teams.find(team => team.id == selectedTeamId);
         const teamMembers = JSON.parse(selectedTeam.members); 
         console.log(teamMembers)

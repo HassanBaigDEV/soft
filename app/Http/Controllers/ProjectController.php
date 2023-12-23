@@ -73,12 +73,5 @@ class ProjectController extends Controller
         return view('projects-view', compact('projects'));
     }
 
-    public function getMembers($teamId)
-    {
-        // Fetch members for the selected team
-        $team = Team::findOrFail($teamId);
-        $members = json_decode($team->members, true);
-
-        return response()->json($members);
-    }
+ 
 }
