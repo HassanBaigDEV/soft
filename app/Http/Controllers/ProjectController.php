@@ -84,7 +84,7 @@ class ProjectController extends Controller
         // ...
 
         // Add the current authenticated user as a member if not already in the members list
-    
+
         $authenticatedUser = Auth::user();
         $members = json_decode($attributes['members'], true) ?? [];
         $members[] = ['id' => $authenticatedUser->id, 'name' => $authenticatedUser->name];
@@ -158,7 +158,29 @@ class ProjectController extends Controller
     }
     public function view()
     {
-        $projects = Project::all();
+        // $projects = Project::all();
+        $user = auth()->user();
+        $allProjects = Project::all();
+        $projects = [];
+
+        foreach ($allProjects as $project) {
+            $projectMembers = json_decode($project->members, true);
+
+            // Check if the user is a member of the project
+            $isUserMember = collect($projectMembers)->contains(function ($member) use ($user) {
+                return $member['id'] === $user->id;
+            });
+
+            if ($isUserMember) {
+                // Filter project members based on user ID
+                $filteredMembers = collect($projectMembers)->filter(function ($member) use ($user) {
+                    return $member['id'] === $user->id;
+                })->values()->toArray();
+
+                $project->filteredMembers = $filteredMembers;
+                $projects[] = $project;
+            }
+        }
         return view('projects-view', compact('projects'));
     }
 }
