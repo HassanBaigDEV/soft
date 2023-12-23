@@ -30,9 +30,9 @@ class TaskController extends Controller
             // 'member_id.*' => 'exists:users,id',
         ]);
 
-        $assigned = json_decode($attributes['assigned_to']);
-        $assigined = $attributes['members'] = json_encode($assigned);
-        return $assigined;
+        $assigined = json_decode($attributes['assigned_to']);
+        // $assigined = $attributes['members'] = json_encode($assigned);
+        // return $assigined->id;
 
 
 
@@ -43,7 +43,7 @@ class TaskController extends Controller
             'name' => $attributes['name'],
             'description' => $attributes['description'],
             'status' => $attributes['status'],
-            // 'assigned_to' => ,
+            'assigned_to' => $assigined->id,
             'due_date' => $attributes['due_date'],
             'project_id' => $project->id, // Assign project_id from the request
         ]);
