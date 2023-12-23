@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Team;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -59,19 +59,60 @@ class ProjectController extends Controller
         return view('project-create', compact('teams'));
     }
 
-    public function store(Request $request, Team $team)
+    public function store(Request $request)
     {
-        $this->authorize('editProject', $team);
+        // $this->authorize('editProject', $team);
+
+        // Validate the form data
 
         $attributes = $request->validate([
             'name' => ['required', 'max:255'],
             'team_id' => ['required', 'exists:teams,id'],
+            'description' => ['nullable', 'string'],
+            'members' => ['nullable'],
+            'status' => ['required', 'in:not started,in progress,completed,cancelled'],
+            'start_date' => ['nullable', 'date'],
+            'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
             // Add other validation rules as needed
         ]);
 
-        $project = Project::create($attributes);
+        // You can customize the members field based on your form structure
+        // For example, if you're sending an array of members, you might want to encode it as JSON
+        // $attributes['members'] = json_encode($request->input('members'));
 
-        return redirect()->route('dashboard')->with('success', 'Project created successfully.');
+        // Set additional fields
+        // ...
+
+        // Add the current authenticated user as a member if not already in the members list
+    
+        $authenticatedUser = Auth::user();
+        $members = json_decode($attributes['members'], true) ?? [];
+        $members[] = ['id' => $authenticatedUser->id, 'name' => $authenticatedUser->name];
+
+        $members = $attributes['members'] = json_encode($members);
+
+
+        $team_id = $attributes['team_id'];
+        $name = $attributes['name'];
+        $description = $attributes['description'];
+        $status = $attributes['status'];
+        $start_date = $attributes['start_date'];
+        $end_date = $attributes['end_date'];
+
+
+        try {
+
+
+            DB::unprepared("Insert into projects (team_id, name, description, members, status, start_date, end_date) values ('$team_id','$name','$description','$members','$status','$start_date','$end_date')");
+
+            return redirect()->route('projects.view')->with('success', 'Project created successfully.');
+        } catch (\Exception $e) {
+            // Rollback the transaction on exception
+            DB::rollBack();
+
+            // Handle the exception as needed
+            return redirect()->back()->with('error', 'Failed to create the project.');
+        };
     }
 
     public function edit(Project $project, Team $team)
