@@ -1,87 +1,11 @@
-{{-- @extends('layouts.user_type.auth')
-
-@section('content')
-
-<form>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <input type="text" placeholder="Regular" class="form-control" disabled />
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <div class="input-group mb-4">
-            <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-            <input class="form-control" placeholder="Search" type="text">
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <div class="input-group mb-4">
-            <input class="form-control" placeholder="Birthday" type="text">
-            <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group has-success">
-          <input type="text" placeholder="Success" class="form-control is-valid" />
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group has-danger">
-          <input type="email" placeholder="Error Input" class="form-control is-invalid" />
-        </div>
-      </div>
-    </div>
-  </form>
-  <div class="form-group">
-    <label for="exampleFormControlInput1">Email address</label>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="exampleFormControlTextarea1">Example textarea</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" id="fcustomCheck1" checked="">
-    <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
-  </div>
-  <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked="">
-    <label class="form-check-label" for="flexSwitchCheckDefault">Checked switch</label>
-  </div>
-@endsection --}}
-
 @extends('layouts.user_type.auth')
 
 @section('content')
 
 <div class="container-fluid py-4">
     <h2>Create Project</h2>
-    <form method="post" action="">
+    <form method="post" action="{{ route('projects.store') }}">
+        
         @csrf
         <div class="row">
             <div class="col-md-6">
@@ -154,13 +78,36 @@
     </form>
 </div>
 <!-- Include the following JavaScript code at the end of your Blade file -->
-<script>
+{{-- <script>
+     document.querySelector('form').addEventListener('submit', function () {
+        // Add a hidden input field to send the selected team ID to the controller
+     
+        const selectedTeamId = document.getElementById('team').value;
+        const hiddenTeamIdInput = document.createElement('input');
+        hiddenTeamIdInput.type = 'hidden';
+        hiddenTeamIdInput.name = 'team_id';
+        hiddenTeamIdInput.value = selectedTeamId;
+        this.appendChild(hiddenTeamIdInput);
+
+        // Add a hidden input field to send the selected members to the controller
+        const selectedMembers = Array.from(document.getElementById('members').selectedOptions)
+            .map(option => option.value);
+        const hiddenMembersInput = document.createElement('input');
+        hiddenMembersInput.type = 'hidden';
+        hiddenMembersInput.name = 'members';
+        hiddenMembersInput.value = selectedMembers;
+        this.appendChild(hiddenMembersInput);
+       
+    });
+    
+
     // Get the teams
     const teams = @json($teams);
  
 
     // Event listener for team select change
     document.getElementById('team').addEventListener('change', function () {
+       
         // Get the selected team ID
         const membersSelectElement = document.getElementById('members');
         membersSelectElement.innerHTML = '';
@@ -175,14 +122,64 @@
         membersSelectElement.innerHTML = '';
 
         // Loop through the members and add the options
-        Object.entries(teamMembers).forEach(([key, value]) => {
+        Object.entries(teamMembers).forEach((member) => {
+            [key, value] = member;
             console.log(key, value);
+            console.log(member);
     const optionElement = document.createElement('option');
-    optionElement.value = value.id; 
+    optionElement.value = member; 
     optionElement.text = `${value.name}`; 
     membersSelectElement.appendChild(optionElement);    
     });
     });
+</script> --}}
+<script>
+// Get the teams
+const teams = @json($teams);
+
+// Event listener for team select change
+document.getElementById('team').addEventListener('change', function () {
+    // Get the selected team ID
+    const membersSelectElement = document.getElementById('members');
+    membersSelectElement.innerHTML = '';
+
+    const selectedTeamId = this.value;
+    if (!selectedTeamId) {
+        return;
+    }
+
+    const selectedTeam = teams.find(team => team.id == selectedTeamId);
+    const teamMembers = JSON.parse(selectedTeam.members);
+
+    // Loop through the members and add the options
+    Object.entries(teamMembers).forEach((member) => {
+        [key, value] = member;
+
+        const optionElement = document.createElement('option');
+        optionElement.value = JSON.stringify(value); // Submit entire object
+        optionElement.text = `${value.name}`;
+        membersSelectElement.appendChild(optionElement);
+    });
+});
+
+document.querySelector('form').addEventListener('submit', function () {
+    // Add a hidden input field to send the selected team ID to the controller
+    const selectedTeamId = document.getElementById('team').value;
+    const hiddenTeamIdInput = document.createElement('input');
+    hiddenTeamIdInput.type = 'hidden';
+    hiddenTeamIdInput.name = 'team_id';
+    hiddenTeamIdInput.value = selectedTeamId;
+    this.appendChild(hiddenTeamIdInput);
+
+    // Add a hidden input field to send the selected members to the controller
+    const selectedMembers = Array.from(document.getElementById('members').selectedOptions)
+        .map(option => JSON.parse(option.value));
+    const hiddenMembersInput = document.createElement('input');
+    hiddenMembersInput.type = 'hidden';
+    hiddenMembersInput.name = 'members';
+    hiddenMembersInput.value = JSON.stringify(selectedMembers);
+    this.appendChild(hiddenMembersInput);
+});
 </script>
 
 
