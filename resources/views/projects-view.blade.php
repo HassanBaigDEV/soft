@@ -16,8 +16,8 @@
                                 <i class="fa fa-plus"></i> New Project
                             </a>
                         </div>
-                          <div class="table-responsive p-0">
-                              <table class="table align-items-center mb-0">
+                          <div class="table-responsive p-0" style="overflow-x: hidden">
+                              <table class="table align-items-center mb-0" id="projects-table">
                                   <thead>
                                       <tr>
                                           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project</th>
@@ -28,7 +28,7 @@
                                           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                                       </tr>
                                   </thead>
-                                  <tbody>
+                                  <tbody >
                                       @foreach($projects as $project)
                                       <tr>
                                           <td>
@@ -50,19 +50,33 @@
                                           <td class="text-center">{{ $project->start_date }}</td>
                                           <td class="text-center">{{ $project->end_date }}</td>
                                           <td class="text-center">
-                                              <a href="{{ route('projects.edit', $project->id) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit project">
-                                                  Edit
-                                              </a>
-                                              <a href="{{ route('tasks.index', ['project' => $project->id]) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="View tasks">
-                                                  View Tasks
-                                              </a>
-                                              <form action="{{ route('projects.destroy', $project->id) }}" method="POST" class="d-inline">
-                                                  @csrf
-                                                  @method('DELETE')
-                                                  <button type="submit" class="btn btn-link text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete project">
-                                                      Delete
-                                                  </button>
-                                              </form>
+                                            <div class="dropdown">
+                                                <a href="#" class="btn btn-link text-secondary mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                                                    <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                                                    <li>
+                                                        <a href="{{ route('projects.edit', $project->id) }}" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit project">
+                                                            Edit
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('tasks.index', ['project' => $project->id]) }}" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="View tasks">
+                                                            View Tasks
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                    
+                                                            <a  href="{{ route('projects.destroy', $project->id) }}" class=" dropdown-item text-secondary font-weight-bold text-xs border-none background-none" data-toggle="tooltip" data-original-title="Delete project">
+                                                                Delete
+                                                            </a>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                              </div>
+                                             
+                                             
+                                             
                                           </td>
                                       </tr>
                                       @endforeach
@@ -75,6 +89,9 @@
           </div>
       </div>
   </main>
+
   
   @endsection
+
+  
   
