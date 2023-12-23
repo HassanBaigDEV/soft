@@ -11,6 +11,11 @@
                           <h6>Projects</h6>
                       </div>
                       <div class="card-body px-0 pt-0 pb-2">
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="/project/create" class="btn btn-success">
+                                <i class="fa fa-plus"></i> New Project
+                            </a>
+                        </div>
                           <div class="table-responsive p-0">
                               <table class="table align-items-center mb-0">
                                   <thead>
