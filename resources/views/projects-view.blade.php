@@ -64,12 +64,15 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                    
-                                                            <a  href="{{ route('projects.destroy', $project->id) }}" class=" dropdown-item text-secondary font-weight-bold text-xs border-none background-none" data-toggle="tooltip" data-original-title="Delete project">
+                                                        <form action="{{ route('projects.destroy', $project->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="dropdown-item text-secondary font-weight-bold text-xs border-none background-none" data-toggle="tooltip" data-original-title="Delete project">
                                                                 Delete
-                                                            </a>
+                                                            </button>
                                                         </form>
                                                     </li>
+                                                    
                                                 </ul>
                                               </div>
                                              

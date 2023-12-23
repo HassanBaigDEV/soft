@@ -7,6 +7,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Models\Team;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 
 class ProjectController extends Controller
@@ -87,13 +88,32 @@ class ProjectController extends Controller
         return redirect()->route('dashboard')->with('success', 'Project updated successfully.');
     }
 
-    public function destroy(Team $team)
+    public function destroy(Request $request, Project $project)
     {
         // Delete logic here
 
-        $this->authorize('editProject', $team);
 
-        return redirect()->route('dashboard')->with('success', 'Project deleted successfully.');
+
+        try {
+            // Use a transaction to ensure data consistency
+            DB::beginTransaction();
+
+            // Delete the project
+            $project->delete();
+
+            // Commit the transaction
+            DB::commit();
+
+
+            // Redirect with success message
+            return redirect()->route('projects.view')->with('success', 'Project deleted successfully.');
+        } catch (\Exception $e) {
+            // An error occurred, rollback the transaction
+            DB::rollback();
+
+            // Redirect with error message
+            return redirect()->route('projects.view')->with('error', 'Failed to delete project.');
+        }
     }
     public function view()
     {
