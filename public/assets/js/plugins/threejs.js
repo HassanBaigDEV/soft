@@ -8486,7 +8486,7 @@
     'darkred': 0x8B0000,
     'darksalmon': 0xE9967A,
     'darkseagreen': 0x8FBC8F,
-    'darkslateblue': 0x483D8B,
+    'darkslateblue': 0x001122,
     'darkslategray': 0x2F4F4F,
     'darkslategrey': 0x2F4F4F,
     'darkturquoise': 0x00CED1,
