@@ -9,11 +9,6 @@
             <h6 class="font-weight-bolder mb-0 text-capitalize">{{ str_replace('-', ' ', Request::path()) }}</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 d-flex justify-content-end" id="navbar"> 
-            {{-- <div class="nav-item d-flex align-self-end">
-                <a href="https://www.creative-tim.com/product/soft-ui-dashboard-laravel" target="_blank" class="btn btn-primary active mb-0 text-white" role="button" aria-pressed="true">
-                    Download
-                </a>
-            </div> --}}
             <div class="ms-md-4 pe-md-4 d-flex align-items-center">
             <div class="input-group">
                 <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
@@ -38,7 +33,6 @@
             </li>
             <li class="nav-item px-3 d-flex align-items-center">
                 <a href="javascript:;" class="nav-link text-body p-0">
-                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
                 </a>
             </li>
             <li class="nav-item dropdown pe-2 d-flex align-items-center">

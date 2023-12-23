@@ -25,7 +25,6 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-
 Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/', [HomeController::class, 'home']);
