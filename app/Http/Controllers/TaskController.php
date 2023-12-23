@@ -19,25 +19,31 @@ class TaskController extends Controller
     }
 
 
-    public function store(Request $request,Project $project)
+    public function store(Request $request, Project $project)
     {
         $attributes = $request->validate([
             'name' => 'required|max:255',
             'description' => 'required',
             'status' => 'required|in:not started,in progress,completed,cancelled',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
-            'member_id' => 'required|array',
+            'due_date' => 'required|date',
+            'assigned_to' => 'required',
             // 'member_id.*' => 'exists:users,id',
         ]);
+
+        $ass= json_decode($attributes['assigned_to']);
+        $assigi
+
+        
+
+
 
         // Create the task associated with the project
         $task = Task::create([
             'name' => $attributes['name'],
             'description' => $attributes['description'],
             'status' => $attributes['status'],
-            'start_date' => $attributes['start_date'],
-            'end_date' => $attributes['end_date'],
+            // 'assigned_to' => ,
+            'due_date' => $attributes['due_date'],
             'project_id' => $project->id, // Assign project_id from the request
         ]);
 
@@ -69,7 +75,7 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        
+
 
         try {
             DB::beginTransaction();

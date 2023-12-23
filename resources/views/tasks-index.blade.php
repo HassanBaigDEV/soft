@@ -48,7 +48,15 @@
                                         </td>
                                         <td class="text-xs font-weight-bold mb-0">{{ $task->description }}</td>
                                         <td class="text-center">{{ $task->due_date }}</td>
-                                        <td class="text-center">{{ $task->assigned_to }}</td>
+                                        {{-- <td class="text-center">{{ $task->assigned_to }}</td>
+                                         --}}
+                                         <td class="text-center">
+                                            @if($task->assigned_to)
+                                                {{ \App\Models\User::find($task->assigned_to)->name }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </td>
                                         <td class="text-center">
                                             <div class="dropdown">
                                                 <a href="#" class="btn btn-link text-secondary mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">

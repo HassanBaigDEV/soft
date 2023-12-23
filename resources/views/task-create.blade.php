@@ -25,9 +25,9 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="team">Select Members</label>
-                    <select class="form-control" id="member" name="member_id[]" >
+                    <select class="form-control" id="member" name="assigned_to" >
                         <option value="">Select Member</option>
-                        @if($project)
+                        {{-- @if($project)
                                 @php
                                     $members = json_decode($project->members, true);
                                 @endphp
@@ -36,7 +36,7 @@
                                         <option value="{{ $member }}">{{ $member }}</option>
                                     @endforeach
                                 @endif
-                        @endif
+                        @endif --}}
                     </select>
                 </div>
             </div>
@@ -53,19 +53,14 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="start_date">Start Date</label>
-                    <input type="date" class="form-control" id="start_date" name="start_date" required>
-                </div>
-            </div>
+
         </div>
 
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="end_date">End Date</label>
-                    <input type="date" class="form-control" id="end_date" name="end_date" required>
+                    <label for="end_date">Due Date</label>
+                    <input type="date" class="form-control" id="due_date" name="due_date" required>
                 </div>
             </div>
         </div>
@@ -73,4 +68,27 @@
         <button type="submit" class="btn btn-primary">Assign Task</button>
     </form>
 </div>
+
+<script>
+    console.log(JSON.parse(@json($project->members)))
+
+    var members = JSON.parse(@json($project->members));
+
+
+    Object.entries(members).forEach(function(member) {
+        [key, value] = member;
+        console.log(member)
+        const option = document.createElement("option");
+        option.value = JSON.stringify(value);
+        option.text = `${value.name}`;
+        document.getElementById("member").appendChild(option);
+    });
+    // document.querySelector('form').addEventListener('submit', function () {
+        //add a hidden input for member
+                                                                    
+                                
+                                
+
+
+    </script>
 @endsection
