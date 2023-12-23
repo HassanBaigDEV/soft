@@ -33,28 +33,28 @@ class ProjectController extends Controller
         // return view('project-create', compact('teams'));
 
         $user = auth()->user();
-        $allTeams = Team::all(); // Get all teams
+        $teams = Team::where('team_head', $user->id)->get(); // Get all teams
 
-        $teams = [];
+        // $teams = [];
 
-        foreach ($allTeams as $team) {
-            $teamMembers = json_decode($team->members, true);
+        // foreach ($allTeams as $team) {
+        //     $teamMembers = json_decode($team->members, true);
 
-            // Check if the user is a member of the team
-            $isUserMember = collect($teamMembers)->contains(function ($member) use ($user) {
-                return $member['id'] === $user->id;
-            });
+        //     // Check if the user is a member of the team
+        //     $isUserMember = collect($teamMembers)->contains(function ($member) use ($user) {
+        //         return $member['id'] === $user->id;
+        //     });
 
-            if ($isUserMember) {
-                // Filter team members based on user ID
-                $filteredMembers = collect($teamMembers)->filter(function ($member) use ($user) {
-                    return $member['id'] === $user->id;
-                })->values()->toArray();
+        //     if ($isUserMember) {
+        //         // Filter team members based on user ID
+        //         $filteredMembers = collect($teamMembers)->filter(function ($member) use ($user) {
+        //             return $member['id'] === $user->id;
+        //         })->values()->toArray();
 
-                $team->filteredMembers = $filteredMembers;
-                $teams[] = $team;
-            }
-        }
+        //         $team->filteredMembers = $filteredMembers;
+        //         $teams[] = $team;
+        //     }
+        // }
 
         return view('project-create', compact('teams'));
     }
