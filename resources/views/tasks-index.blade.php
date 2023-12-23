@@ -1,4 +1,3 @@
-
 @extends('layouts.user_type.auth')
 
 @section('content')
@@ -18,9 +17,7 @@
                             </a> --}}
                             <a href="#" class="btn btn-success">
                                 <i class="fa fa-plus"></i> New Task
-                            </a>
-                            
-                            
+                            </a>                        
                         </div>
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
