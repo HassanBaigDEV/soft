@@ -22,7 +22,6 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        // $this->authorize('editProject', $team);
         $attributes = $request->validate([
             'name' => ['required', 'max:255'],
             'team_id' => ['required', 'exists:teams,id'],
@@ -33,12 +32,25 @@ class ProjectController extends Controller
             'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
             // Add other validation rules as needed
         ]);
+
         $authenticatedUser = Auth::user();
         $members = json_decode($attributes['members'], true) ?? [];
-        $members[] = ['id' => $authenticatedUser->id, 'name' => $authenticatedUser->name];
 
-        $members = $attributes['members'] = json_encode($members);
+        // Check if the authenticated user is already in the members array
+        $existingUserIndex = collect($members)->search(function ($member) use ($authenticatedUser) {
+            return $member['id'] === $authenticatedUser->id;
+        });
 
+        if ($existingUserIndex === false) {
+            // Add the authenticated user to the members array
+            $members[$authenticatedUser->id] = [
+                'id' => $authenticatedUser->id,
+                'name' => $authenticatedUser->name,
+            ];
+        }
+
+        // Encode the members array
+        $attributes['members'] = json_encode($members);
 
         $team_id = $attributes['team_id'];
         $name = $attributes['name'];
@@ -49,14 +61,12 @@ class ProjectController extends Controller
         $created_at = now();
 
         try {
-
-            DB::unprepared("Insert into projects (team_id, name, description, members, status, start_date, end_date, created_at) values ('$team_id','$name','$description','$members','$status','$start_date','$end_date','$created_at')");
+            DB::unprepared("INSERT INTO projects (team_id, name, description, members, status, start_date, end_date, created_at) VALUES ('$team_id','$name','$description','$attributes[members]','$status','$start_date','$end_date','$created_at')");
             return redirect()->route('projects.view')->with('success', 'Project created successfully.');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Failed to create the project.');
-        };
+        }
     }
 
     public function edit(Project $project)

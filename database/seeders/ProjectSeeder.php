@@ -19,7 +19,7 @@ class ProjectSeeder extends Seeder
             'team_id' => 1,
             'name' => 'Sample',
             'description' => 'Sample it is',
-            'members' => json_encode([1, ['id' => 1, 'name' => 'admin']]),
+            'members' => json_encode(['1' => ['id' => 1, 'name' => 'admin'],]),
             'status' => 'cancelled',
             'start_date' => '2023-12-24',
             'end_date' => '2023-12-24',

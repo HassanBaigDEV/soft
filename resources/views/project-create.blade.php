@@ -77,69 +77,11 @@
         <button type="submit" class="btn btn-primary">Create Project</button>
     </form>
 </div>
-<!-- Include the following JavaScript code at the end of your Blade file -->
-{{-- <script>
-     document.querySelector('form').addEventListener('submit', function () {
-        // Add a hidden input field to send the selected team ID to the controller
-     
-        const selectedTeamId = document.getElementById('team').value;
-        const hiddenTeamIdInput = document.createElement('input');
-        hiddenTeamIdInput.type = 'hidden';
-        hiddenTeamIdInput.name = 'team_id';
-        hiddenTeamIdInput.value = selectedTeamId;
-        this.appendChild(hiddenTeamIdInput);
-
-        // Add a hidden input field to send the selected members to the controller
-        const selectedMembers = Array.from(document.getElementById('members').selectedOptions)
-            .map(option => option.value);
-        const hiddenMembersInput = document.createElement('input');
-        hiddenMembersInput.type = 'hidden';
-        hiddenMembersInput.name = 'members';
-        hiddenMembersInput.value = selectedMembers;
-        this.appendChild(hiddenMembersInput);
-       
-    });
-    
-
-    // Get the teams
-    const teams = @json($teams);
- 
-
-    // Event listener for team select change
-    document.getElementById('team').addEventListener('change', function () {
-       
-        // Get the selected team ID
-        const membersSelectElement = document.getElementById('members');
-        membersSelectElement.innerHTML = '';
-        const selectedTeamId = this.value;
-        if (!selectedTeamId) {
-            return;
-        }
-
-        const selectedTeam = teams.find(team => team.id == selectedTeamId);
-        const teamMembers = JSON.parse(selectedTeam.members); 
-
-        membersSelectElement.innerHTML = '';
-
-        // Loop through the members and add the options
-        Object.entries(teamMembers).forEach((member) => {
-            [key, value] = member;
-            console.log(key, value);
-            console.log(member);
-    const optionElement = document.createElement('option');
-    optionElement.value = member; 
-    optionElement.text = `${value.name}`; 
-    membersSelectElement.appendChild(optionElement);    
-    });
-    });
-</script> --}}
 <script>
-// Get the teams
 const teams = @json($teams);
 
-// Event listener for team select change
 document.getElementById('team').addEventListener('change', function () {
-    // Get the selected team ID
+    
     const membersSelectElement = document.getElementById('members');
     membersSelectElement.innerHTML = '';
 
@@ -152,7 +94,6 @@ document.getElementById('team').addEventListener('change', function () {
     const selectedTeam = teams.find(team => team.id == selectedTeamId);
     const teamMembers = JSON.parse(selectedTeam.members);
 
-    // Loop through the members and add the options
     Object.entries(teamMembers).forEach((member) => {
         [key, value] = member;
 
@@ -182,7 +123,4 @@ document.querySelector('form').addEventListener('submit', function () {
     this.appendChild(hiddenMembersInput);
 });
 </script>
-
-
 @endsection
-
