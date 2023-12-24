@@ -37,7 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('billing');
 
 	Route::get('profile', function () {
-		return view('profile');
+		$user = auth()->user();
+		return view('profile', compact('user'));
 	})->name('profile');
 
 	Route::get('rtl', function () {
