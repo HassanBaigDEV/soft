@@ -20,26 +20,35 @@ class OrganizationController extends Controller
         // Validate the request data
         $validatedData = $request->validate([
             'name' => ['required', 'max:255'],
-            'owner_id' => ['required', ''],
+
             // Add other validation rules as needed
         ]);
+
 
         // Retrieve validated data
         $name = $validatedData['name'];
 
+        $user = auth()->user();
         // Set the organization owner ID
-        $ownerId = $validatedData['owner_id'];
+        $ownerId = $user->id;
+        //generate invite code uuid
+        $invite_code = \Illuminate\Support\Str::uuid();
+        //add owner to members
+        $organization = Organization::create([
+            'name' => $name,
+            'invite_code' => $invite_code,
+            'owner_id' => $ownerId,
+            'members' => json_encode(['1' => ['id' => $ownerId, 'name' => $user->name],])
+        ]);
+
+
 
         // Create the organization
-        return DB::unprepared("Insert into organizations (name, owner_id) values ('$name','$ownerId')");
-
-        // return Organization::create([
-        //     'name' => $name,
-        //     'owner_id' => $ownerId,
-        //     // Add other fields as needed
-        // ]);
-
-        // return redirect()->route('dashboard')->with('success', 'Organization created successfully.');
+        if ($organization) {
+            return redirect()->back()->with("success", "organization created successfully");
+        } else {
+            return redirect()->back()->with("error", "organization not created");
+        }
     }
 
 
@@ -89,5 +98,53 @@ class OrganizationController extends Controller
             }
         }
         return view('organizations-view', compact('organizations'));
+    }
+    public function join(Request $request, Organization $organization)
+    {
+
+        $user = auth()->user();
+        $allOrganizations = Organization::all();
+
+        // Validate invite code
+        $attributes = $request->validate([
+            'invite_code' => 'required|uuid',
+        ]);
+
+
+        // Search for organization with invite code
+        foreach ($allOrganizations as $org) {
+            if ($org->invite_code === $attributes['invite_code']) {
+                $orgMembers = json_decode($org->members, true);
+
+
+                // Check if the user is a member of the team
+                $isUserMember = collect($orgMembers)->contains(function ($member) use ($user) {
+                    return $member['id'] === $user->id;
+                });
+
+
+                if (!$isUserMember) {
+
+                    // Add the user to the team
+                    $orgMembers[] = [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                    ];
+
+                    // Update the team members
+                    $org->members = json_encode($orgMembers);
+                    $org->save();
+
+                    return redirect()->back()->with('success', 'You have successfully joined the organization.');
+                } else {
+                    // User is already a member
+                    return redirect()->back()->withErors(['message' => 'You are already a member of this organization.']);
+                }
+            }
+        }
+
+        // No organization found with the given invite code
+        return redirect()->back()->withErrors(['message' => 'Invalid invitation code. Please check and try again.']);
     }
 }

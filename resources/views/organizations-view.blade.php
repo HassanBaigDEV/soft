@@ -84,10 +84,10 @@
                                             <div class="col-md-6">
                                                 <!-- Left panel for joining existing organization -->
                                                 <h6>Join Existing Organization</h6>
-                                                <form class="join-organization-modal-form">
+                                                <form class="join-organization-modal-form" method="POST" action="{{route('organizations.join') }}" >
                                                     <div class="mb-3">
-                                                        <label for="invitationCode" class="form-label">Invitation Code:</label>
-                                                        <input type="text" class="form-control" id="invitationCode" placeholder="Enter invitation code">
+                                                        <label for="invite_code" class="form-label">Invitation Code:</label>
+                                                        <input type="text" class="form-control" id="invite_code" placeholder="Enter invitation code" name="invite_code">
                                                     </div>
                                                     <button type="submit" class="btn btn-primary mx-auto d-block">Join</button>
                                                 </form>
@@ -95,11 +95,11 @@
                                             <div class="col-md-6 border-start">
                                                 <!-- Right panel for creating a new organization -->
                                                 <h6>Create New Organization</h6>
-                                                <form class="create-organization-modal-form"> 
+                                                <form class="create-organization-modal-form" method="POST" action="{{route('organizations.store') }}"> 
                                                     <!-- Add form fields for creating a new organization -->
                                                     <div class="mb-3">
                                                         <label for="name" class="form-label">Name</label>
-                                                        <input type="text" class="form-control" id="name" placeholder="Enter Name">
+                                                        <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name">
                                                     </div>
                                                     <button type="submit" class="btn btn-primary mx-auto d-block">Create</button>
                                                 </form>

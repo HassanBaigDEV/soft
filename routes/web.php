@@ -93,10 +93,11 @@ Route::get('/login', function () {
 })->name('login');
 
 
-Route::post('/organizations', [OrganizationController::class, 'store'])->name('organizations.store');
 // Routes for Organizations
 Route::middleware(['auth'])->group(function () {
+	Route::post('/organizations', [OrganizationController::class, 'store'])->name('organizations.store');
 	Route::get('/organizations/create', [OrganizationController::class, 'create'])->name('organizations.create');
+	Route::post('/organizations/join', [OrganizationController::class, 'join'])->name('organizations.join');
 	Route::get('/organizations', [OrganizationController::class, 'view'])->name('organizations.view');
 	Route::get('/organizations/{organization}/edit', [OrganizationController::class, 'edit'])->name('organizations.edit');
 	Route::put('/organizations/{organization}', [OrganizationController::class, 'update'])->name('organizations.update');

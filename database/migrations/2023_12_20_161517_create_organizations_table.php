@@ -13,7 +13,7 @@ class CreateOrganizationsTable extends Migration
             $table->string('name')->unique();
             $table->foreignId('owner_id')->constrained('users');
             // Additional Fields
-            $table->json('members')->nullable(); // Assuming members are stored as JSON array
+            $table->json('members'); // Assuming members are stored as JSON array
             $table->uuid('invite_code')->unique();
             $table->timestamps();
         });
