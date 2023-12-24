@@ -51,7 +51,7 @@ class TaskController extends Controller
     {
         $project = $task->project;
         $members = $project->members ? json_decode($project->members, true) : [];
-      
+
         return view('task-edit', compact('task', 'project', 'members'));
     }
 
@@ -109,5 +109,23 @@ class TaskController extends Controller
         $tasks = $project->tasks;
 
         return view('tasks-index', compact('tasks', 'project'));
+    }
+    public function show()
+    {
+        $user = auth()->user();
+        $allTasks = Task::all();
+        $tasks = [];
+
+
+        foreach ($allTasks as $task) {
+            $taskAssigned = $task->assigned_to;
+            if ($taskAssigned) {
+                if ($user->id === $taskAssigned) {
+
+                    $tasks[] = $task;
+                }
+            }
+        }
+        return view('myTasks-view', compact('tasks'));
     }
 }
