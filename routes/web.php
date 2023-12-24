@@ -105,9 +105,9 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Routes for Teams
+Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
+Route::post('/organizations/teams', [TeamController::class, 'store'])->name('teams.store');
 Route::middleware(['auth', 'can:createTeam,organization'])->group(function () {
-	Route::get('/organizations/{organization}/teams/create', [TeamController::class, 'create'])->name('teams.create');
-	Route::post('/organizations/{organization}/teams', [TeamController::class, 'store'])->name('teams.store');
 });
 
 Route::middleware(['auth',])->group(function () {

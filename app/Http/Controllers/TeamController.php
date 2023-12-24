@@ -5,18 +5,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
     public function create(Organization $organization)
     {
-        // $this->middleware('role:owner');
-        // Fetch user's organizations to populate organization dropdown
-        $this->authorize('createTeam', $organization);
-        $organizations = auth()->user()->organizations;
+        $user = auth()->user();
+        $organizations = Organization::where('owner_id', $user->id)->get();
+        $members = User::all();
 
-        return view('teams.create', compact('organizations'));
+        return view('teams-create', compact('organizations', 'members'));
     }
 
     public function store(Request $request)
@@ -24,13 +25,37 @@ class TeamController extends Controller
         $attributes = $request->validate([
             'name' => ['required', 'max:255'],
             'organization_id' => ['required', 'exists:organizations,id'],
+            'members' => ['required', 'array'],
+            'team_head' => ['required', 'exists:users,id'],
             // Add other validation rules as needed
         ]);
 
-        $team = Team::create($attributes);
+        // Convert members to an array of objects
+        $members = collect($attributes['members'])->map(function ($memberId) {
+            $user = User::find($memberId);
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                // Add other user attributes as needed
+            ];
+        })->values();
 
-        return redirect()->route('dashboard')->with('success', 'Team created successfully.');
+        // Create a new Team instance and set its attributes
+        $team = new Team([
+            'name' => $attributes['name'],
+            'organization_id' => $attributes['organization_id'],
+            'members' => $members->toJson(),
+            'team_head' => $attributes['team_head'],
+        ]);
+
+        // Save the team to the database
+        $team->save();
+
+        return redirect()->route('teams.view')->with('success', 'Team created successfully.');
     }
+
+
+
     public function edit(Team $team)
     {
         return view('teams.edit', compact('team'));
@@ -56,6 +81,7 @@ class TeamController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Team deleted successfully.');
     }
+    
     public function view(Team $team)
     {
         $user = auth()->user();
