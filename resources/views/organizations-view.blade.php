@@ -30,9 +30,8 @@
                                     @foreach($organizations as $organization)
                                         <tr>
                                             <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{ $organization->name }}</p>
-                                            </td>
-                                            <td class="text-center">
+                                                <a href="" class="text-xs font-weight-bold mb-0">{{ $organization->name }}</a>                                             </td>
+                                            <td class="text-center" data-bs-toggle="modal" data-bs-target="#membersModal" data-organization-id="{{ $organization->id }}">
                                                 {{ count(json_decode($organization->members, true)) }}
                                             </td>
                                             <td class="text-center">
@@ -40,13 +39,14 @@
                                                 <i class="fas fa-copy copy-icon" data-organization-id="{{ $organization->id }}" style="cursor: pointer;"></i>
                                             </td>
                                             <td class="text-center">
+                                                @if(auth()->user()->id === $organization->owner_id)
                                                 <div class="dropdown">
                                                     <a href="#" class="btn btn-link text-secondary mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
                                                         <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
                                                     </a>
                                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                                                         <li>
-                                                            <a href="" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit project">
+                                                            <a href="{{route('organizations.edit', ['organization' => $organization->id ])}}" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit project">
                                                                 Edit
                                                             </a>
                                                         </li>
@@ -63,9 +63,12 @@
                                                         
                                                     </ul>
                                                   </div>
-                                                 
-                                                 
-                                                 
+                                                  @else
+                                                     <!-- Disable action buttons -->
+                                                    <button class="btn btn-link text-secondary mb-0" disabled>
+                                                        <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
+                                                    </button>
+                                                @endif
                                               </td>
                                         </tr>
                                     @endforeach
@@ -112,6 +115,96 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade" id="membersModal" tabindex="-1" role="dialog" aria-labelledby="membersModalTitle" aria-hidden="true">
+                            <!-- Members Modal Content -->
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="membersModalTitle">Organization Members</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Display members in a table/list -->
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    @if(auth()->user()->id === $organization->owner_id)
+                                                        <th>Action</th>
+                                                    @endif
+                                                </tr>
+                                            </thead>
+                                            <tbody id="membersList">
+
+                                                <!-- Members will be dynamically added here -->
+                                                {{-- json_decode($organization->members, true --}}
+                                                @foreach(json_decode($organization->members, true) as $member)
+                                                    <tr>
+                                                        <td>{{ $member['name'] }}</td>
+                                                        {{-- find email based on id from User table --}}
+                                                        
+                                                        <td>{{ \App\Models\User::find($member['id'])->email }}</td>
+
+                                                           
+
+                                                        {{-- <td>{{ $member['email'] }}</td> --}}
+                                                        @if(auth()->user()->id === $organization->owner_id)
+                                                            <td>
+                                                                <form action="" method="POST">
+                                                                    {{-- {{ route('organizations.remove-member', ['organization' => $organization->id, 'member' => $member['id']]) }} --}}
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    
+                                                                    <button type="submit" class="btn">
+                                                                        <i class="cursor-pointer fas fa-trash text-secondary" aria-hidden="true"></i>                                                                    </button>                                                                </form>
+                                                            </td>
+                                                        @endif
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        @if(auth()->user()->id === $organization->owner_id)
+                                            <!-- Add Member Button -->
+                                            <button class="btn btn-primary mx-auto d-block" data-bs-toggle="modal" data-bs-target="#addMemberModal">Add Member</button>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- Add Member Modal Content -->
+                            <!-- ... (your add member modal code) ... -->
+                                                    <!-- Add Member Modal Content -->
+                            <!-- Add Member Modal Content -->
+                            <div class="modal fade" id="addMemberModal" tabindex="-1" role="dialog" aria-labelledby="addMemberModalTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addMemberModalTitle">Add Member</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Add member form -->
+                                            {{-- {{ route('organizations.add-member', ['organization' => $organization->id]) }} --}}
+                                            <form method="POST" action="">
+                                                @csrf
+                                                <div class="mb-3">
+                                                    <label for="searchMember" class="form-label">Search for a User</label>
+                                                    <select class="form-control" id="searchMember" name="searchMember" data-live-search="true">
+                                                        @foreach (\App\Models\User::all() as $user)
+                                                            @if (!in_array($user->id, array_column(json_decode($organization->members, true), 'id')))
+                                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>                                                </div>
+                                                <button type="submit" class="btn btn-primary">Add Member</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -137,6 +230,18 @@
 
 {{-- @section('scripts') --}}
     <!-- Add your additional scripts here if needed -->
+<!-- Include Bootstrap Select CSS and JS files -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+<!-- Add your additional scripts here if needed -->
+<script>
+    // Initialize Bootstrap Select
+    $(document).ready(function () {
+        $('#searchMember').selectpicker();
+    });
+</script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const copyIcons = document.querySelectorAll('.copy-icon');

@@ -52,9 +52,11 @@ class OrganizationController extends Controller
     }
 
 
-    public function edit(Organization $organization)
+    public function edit($organizationId)
+
     {
-        return view('organizations.edit', compact('organization'));
+        $organization = Organization::findOrFail($organizationId);
+        return view('organizations-edit', compact('organization'));
     }
 
     public function update(Request $request, Organization $organization)
