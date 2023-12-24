@@ -51,7 +51,7 @@ class TaskController extends Controller
     {
         $project = $task->project;
         $members = $project->members ? json_decode($project->members, true) : [];
-
+      
         return view('task-edit', compact('task', 'project', 'members'));
     }
 

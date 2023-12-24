@@ -62,4 +62,32 @@ class OrganizationController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Organization deleted successfully.');
     }
+    public function view(Organization $organization)
+    {
+        $user = auth()->user();
+        $allOrganizations = Organization::all();
+
+        $organizations = [];
+        foreach ($allOrganizations as $org) {
+            $orgMembers = json_decode($org->members, true);
+
+
+            // Check if the user is a member of the team
+            $isUserMember = collect($orgMembers)->contains(function ($member) use ($user) {
+                return $member['id'] === $user->id;
+            });
+
+            if ($isUserMember) {
+
+                // Filter team members based on user ID
+                $filteredMembers = collect($orgMembers)->filter(function ($member) use ($user) {
+                    return $member['id'] === $user->id;
+                })->values()->toArray();
+
+                $org->filteredMembers = $filteredMembers;
+                $organizations[] = $org;
+            }
+        }
+        return view('organizations-view', compact('organizations'));
+    }
 }

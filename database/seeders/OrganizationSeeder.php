@@ -17,6 +17,8 @@ class OrganizationSeeder extends Seeder
         DB::table('organizations')->insert([
             'name' => 'Sample Organization',
             'owner_id' => 1,
+            //generate uuid for invite code
+            'invite_code' => \Illuminate\Support\Str::uuid(),
             'created_at' => now(),
             'updated_at' => now()
         ]);

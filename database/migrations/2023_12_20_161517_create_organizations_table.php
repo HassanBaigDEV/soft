@@ -14,8 +14,7 @@ class CreateOrganizationsTable extends Migration
             $table->foreignId('owner_id')->constrained('users');
             // Additional Fields
             $table->json('members')->nullable(); // Assuming members are stored as JSON array
-            $table->json('teams')->nullable();   // Assuming teams are stored as JSON array
-            $table->json('projects')->nullable(); // Assuming projects are stored as JSON array
+            $table->uuid('invite_code')->unique();
             $table->timestamps();
         });
     }

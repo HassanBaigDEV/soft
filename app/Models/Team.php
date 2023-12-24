@@ -15,7 +15,6 @@ class Team extends Model
         'team_head',
         // Additional Fields
         'members',
-        'projects',
     ];
 
     public function organization()

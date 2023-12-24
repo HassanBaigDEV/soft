@@ -17,8 +17,7 @@ class Organization extends Model
         'name',
         // Additional Fields
         'members',
-        'teams',
-        'projects',
+        'invite_code',
     ];
 
     public function owner()
