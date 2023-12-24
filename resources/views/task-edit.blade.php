@@ -20,12 +20,12 @@
                     <label for="team">Assigned to</label>
                     <select class="form-control" id="assigned_to" name="assigned_to" required>
                         <option value="">Select Member</option>
-                        @foreach($members as $member)
+                        {{--@foreach($members as $member)
                             @php
                                 $selected = collect($task->members)->contains('id', $member['id']) ? 'selected' : '';
                             @endphp
                             <option value="{{ $member['id'] }}" {{ $selected }}>{{ $member['name'] }}</option>
-                        @endforeach
+                        @endforeach--}}
                     </select>
                 </div>
                 
@@ -55,7 +55,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="due_date">Due Date</label>
-                    <input type="date" class="form-control" id="due_date" name="due_date" value="{{ old('start_date', $task->created_at) }}" required>
+                    <input type="date" class="form-control" id="due_date" name="due_date" value="{{ old('due_date', $task->due_date) }}" required>
                 </div>
             </div>
         </div>

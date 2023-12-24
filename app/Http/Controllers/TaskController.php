@@ -49,10 +49,7 @@ class TaskController extends Controller
 
     public function edit(Task $task)
     {
-        $task = Task::findOrFail($task->id);
-        $project = $task->project; // Assuming you have a relationship between Task and Project
-
-        // Retrieve the list of members for the project
+        $project = $task->project;
         $members = $project->members ? json_decode($project->members, true) : [];
 
         return view('task-edit', compact('task', 'project', 'members'));
