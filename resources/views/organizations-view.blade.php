@@ -11,6 +11,11 @@
                         <h6>Organizations</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="" class="btn btn-primary" style="margin-right:10px" data-bs-toggle="modal" data-bs-target="#newOrganizationModal">
+                                <i class="fa fa-plus"></i> New 
+                            </a>
+                        </div>
                         <div class="table-responsive p-0" style="overflow-x: hidden">
                             <table class="table align-items-center mb-0" id="organizations-table">
                                 <thead>
@@ -35,12 +40,77 @@
                                                 <i class="fas fa-copy copy-icon" data-organization-id="{{ $organization->id }}" style="cursor: pointer;"></i>
                                             </td>
                                             <td class="text-center">
-                                                <!-- Add your organization actions here if needed -->
-                                            </td>
+                                                <div class="dropdown">
+                                                    <a href="#" class="btn btn-link text-secondary mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                                                        <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
+                                                    </a>
+                                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                                                        <li>
+                                                            <a href="" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit project">
+                                                                Edit
+                                                            </a>
+                                                        </li>
+                                                      
+                                                        <li>
+                                                            <form action="" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="dropdown-item text-secondary font-weight-bold text-xs border-none background-none" data-toggle="tooltip" data-original-title="Delete project">
+                                                                    Delete
+                                                                </button>
+                                                            </form>
+                                                        </li>
+                                                        
+                                                    </ul>
+                                                  </div>
+                                                 
+                                                 
+                                                 
+                                              </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="modal fade" id="newOrganizationModal" tabindex="-1" role="dialog" aria-labelledby="newOrganizationModalTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="newOrganizationModalTitle">Create or Join Organization</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <!-- Left panel for joining existing organization -->
+                                                <h6>Join Existing Organization</h6>
+                                                <form class="join-organization-modal-form">
+                                                    <div class="mb-3">
+                                                        <label for="invitationCode" class="form-label">Invitation Code:</label>
+                                                        <input type="text" class="form-control" id="invitationCode" placeholder="Enter invitation code">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary mx-auto d-block">Join</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-6 border-start">
+                                                <!-- Right panel for creating a new organization -->
+                                                <h6>Create New Organization</h6>
+                                                <form class="create-organization-modal-form"> 
+                                                    <!-- Add form fields for creating a new organization -->
+                                                    <div class="mb-3">
+                                                        <label for="name" class="form-label">Name</label>
+                                                        <input type="text" class="form-control" id="name" placeholder="Enter Name">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary mx-auto d-block">Create</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -61,6 +131,7 @@
         .copy-icon:hover {
             text-decoration: underline;
         }
+
     </style>
 {{-- @endsection --}}
 
