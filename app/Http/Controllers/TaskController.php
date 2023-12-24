@@ -30,7 +30,7 @@ class TaskController extends Controller
         ]);
 
         $assigined = json_decode($attributes['assigned_to']);
-        
+
         // Create the task associated with the project
         $task = Task::create([
             'name' => $attributes['name'],
@@ -61,32 +61,33 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         // Validate the incoming request data
-        $request->validate([
-            'name' => 'required|string',
-            'description' => 'required|string',
-            'member_id' => 'required|array',
-            // 'member_id.*' => 'exists:members,id', // Assuming members table has 'id' column
+        $attributes = $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'required',
             'status' => 'required|in:not started,in progress,completed,cancelled',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
+            'due_date' => 'required|date',
+            'assigned_to' => 'required',
         ]);
+
+        //string to int  convert
+        $assigned = (int)$attributes['assigned_to'];
 
         // Find the task by ID
         $project = $task->project;
         // Update the task with the validated data
         $task->update([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'status' => $request->input('status'),
-            'start_date' => $request->input('start_date'),
-            'end_date' => $request->input('end_date'),
+            'name' => $attributes['name'],
+            'description' => $attributes['description'],
+            'status' => $attributes['status'],
+            'assigned_to' => $assigned,
+            'due_date' => $attributes['due_date'],
         ]);
 
         // Sync the members associated with the task
         // $task->members()->sync($request->input('member_id'));
 
         // Redirect back to the task edit page with a success message
-        return redirect()->route('tasks.index', compact('project'));
+        return redirect()->route('tasks.index', compact('project'))->with('success', 'Task updated successfully.');
     }
 
     public function destroy(Task $task)

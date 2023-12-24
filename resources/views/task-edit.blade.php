@@ -15,6 +15,21 @@
                     <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $task->name) }}" required>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="team">Assigned to</label>
+                    <select class="form-control" id="assigned_to" name="assigned_to" required>
+                        <option value="">Select Member</option>
+                        @foreach($members as $member)
+                            @php
+                                $selected = collect($task->members)->contains('id', $member['id']) ? 'selected' : '';
+                            @endphp
+                            <option value="{{ $member['id'] }}" {{ $selected }}>{{ $member['name'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                
+            </div>
         </div>
 
         <div class="row">
@@ -24,20 +39,8 @@
                     <textarea class="form-control" id="description" name="description" rows="3" required>{{ old('description', $task->description) }}</textarea>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="team">Select Members</label>
-                    <select class="form-control" id="member" name="member_id[]" multiple required>
-                        <option value="">Select Member</option>
-                        @foreach($members as $member)
-                            <option value="{{ $member }}" {{ in_array($member, $task->members) ? 'selected' : '' }}>{{ $member }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
+           
+    
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="status">Task Status</label>
@@ -51,21 +54,13 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="start_date">Start Date</label>
-                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date', $task->created_at) }}" required>
+                    <label for="due_date">Due Date</label>
+                    <input type="date" class="form-control" id="due_date" name="due_date" value="{{ old('start_date', $task->created_at) }}" required>
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="end_date">End Date</label>
-                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date', $task->due_date) }}" required>
-                </div>
-            </div>
-        </div>
-
+      
         <button type="submit" class="btn btn-primary">Update Task</button>
     </form>
 </div>
