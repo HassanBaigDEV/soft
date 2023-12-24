@@ -72,7 +72,6 @@ class TaskController extends Controller
         ]);
 
         // Find the task by ID
-        $task = Task::findOrFail($task->id);
         $project = $task->project;
         // Update the task with the validated data
         $task->update([
