@@ -52,7 +52,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="start_date">Start Date</label>
-                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date', $task->start_date) }}" required>
+                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date', $task->created_at) }}" required>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="end_date">End Date</label>
-                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date', $task->end_date) }}" required>
+                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date', $task->due_date) }}" required>
                 </div>
             </div>
         </div>

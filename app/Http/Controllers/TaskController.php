@@ -18,7 +18,6 @@ class TaskController extends Controller
         return view('task-create', compact('project'));
     }
 
-
     public function store(Request $request, Project $project)
     {
         $attributes = $request->validate([
@@ -31,13 +30,7 @@ class TaskController extends Controller
         ]);
 
         $assigined = json_decode($attributes['assigned_to']);
-        // $assigined = $attributes['members'] = json_encode($assigned);
-        // return $assigined->id;
-
-
-
-
-
+        
         // Create the task associated with the project
         $task = Task::create([
             'name' => $attributes['name'],
@@ -54,11 +47,9 @@ class TaskController extends Controller
         return redirect()->route('tasks.index', compact('project'));
     }
 
-
-
-    public function edit($id)
+    public function edit(Task $task)
     {
-        $task = Task::findOrFail($id);
+        $task = Task::findOrFail($task->id);
         $project = $task->project; // Assuming you have a relationship between Task and Project
 
         // Retrieve the list of members for the project
@@ -67,17 +58,40 @@ class TaskController extends Controller
         return view('task-edit', compact('task', 'project', 'members'));
     }
 
-    public function update(Project $project)
+    public function update(Request $request, Task $task)
     {
-        // Validation and update logic here
-        // $this->authorize('manageTasks', $project);
-        return redirect()->route('dashboard')->with('success', 'Task updated successfully.');
+        // Validate the incoming request data
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'member_id' => 'required|array',
+            // 'member_id.*' => 'exists:members,id', // Assuming members table has 'id' column
+            'status' => 'required|in:not started,in progress,completed,cancelled',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+        ]);
+
+        // Find the task by ID
+        $task = Task::findOrFail($task->id);
+        $project = $task->project;
+        // Update the task with the validated data
+        $task->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'status' => $request->input('status'),
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
+        ]);
+
+        // Sync the members associated with the task
+        // $task->members()->sync($request->input('member_id'));
+
+        // Redirect back to the task edit page with a success message
+        return redirect()->route('tasks.index', compact('project'));
     }
 
     public function destroy(Task $task)
     {
-
-
         try {
             DB::beginTransaction();
             $task->delete();
@@ -92,13 +106,10 @@ class TaskController extends Controller
         }
     }
 
-
-    // view tasks of a project from the project id in the url
     public function view(Project $project)
     {
         // $this->authorize('manageTasks', $project);
         $tasks = $project->tasks;
-        // return $tasks;
 
         return view('tasks-index', compact('tasks', 'project'));
     }
