@@ -270,7 +270,7 @@
                           <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $project->name }}</p>
                       </td>
                       <td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                        <div class="card" style="height: {{ count(json_decode($project->members)) * 50 }}px;">                              
+                        <div class="card" style="height: {{ count(json_decode($project->members, true)) * 50 }}px;">                          
                           @foreach(json_decode($project->members) as $member)
                               @if(is_object($member) && isset($member->name))
                                 <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
