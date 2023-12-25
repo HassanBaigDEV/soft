@@ -21166,6 +21166,9 @@ hr.horizontal.gray-light {
         fill: #fff;
     }
 }
+.nav-link.active .icon svg {
+    fill: #fff;
+}
 .navbar-vertical
     .navbar-nav
     > .nav-item

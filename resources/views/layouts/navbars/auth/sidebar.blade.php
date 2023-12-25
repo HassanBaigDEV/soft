@@ -161,9 +161,3 @@
     </ul>
   </div>
 </aside>
-<style>
-  /* svg with class .svg fill to #fff when  */
-  .nav-link.active .icon svg {
-  fill: #fff;
-}
-</style>
