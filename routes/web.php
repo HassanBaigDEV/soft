@@ -13,23 +13,24 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Models\Task;
+use App\Models\Project;
+use App\Models\User;
+use App\Models\Team;
+use App\Models\Organization;
 
 Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/', [HomeController::class, 'home']);
 	Route::get('dashboard', function () {
-		return view('dashboard');
+		$projects = Project::all();
+		$completeCount = Project::where('status', 'completed')->count();
+		$inProgress = Project::where('status', 'in progress')->count();
+		$usersCount = User::count();
+        $organizationsCount = Organization::count();
+        $teamsCount = Team::count();
+		$projectsCount = Project::count();
+		return view('dashboard', compact('projects', 'completeCount', 'inProgress', 'usersCount', 'organizationsCount', 'teamsCount', 'projectsCount'));
 	})->name('dashboard');
 
 	Route::get('billing', function () {
@@ -69,7 +70,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/user-profile', [InfoUserController::class, 'create']);
 	Route::post('/user-profile', [InfoUserController::class, 'store']);
 	Route::get('/login', function () {
-		return view('dashboard');
+		$projects = Project::all();
+		return view('dashboard', compact('projects'));
 	})->name('sign-up');
 });
 
