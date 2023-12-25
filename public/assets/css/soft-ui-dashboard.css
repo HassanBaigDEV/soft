@@ -20494,6 +20494,9 @@ hr.horizontal.gray-light {
 }
 .navbar-vertical .navbar-nav > .nav-item .nav-link.active .icon {
   background-image: linear-gradient(310deg, #1d2c4a 0%, #1d2c4a 100%);
+  svg{
+    fill:#fff
+  }
 }
 .navbar-vertical .navbar-nav > .nav-item .nav-link.active .icon svg .color-background,
 .navbar-vertical .navbar-nav > .nav-item .nav-link.active .icon svg .color-foreground {
