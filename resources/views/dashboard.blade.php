@@ -2,7 +2,7 @@
 
 @section('content')
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
       <div class="card">
         <div class="card-body p-3">
@@ -91,7 +91,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="row mt-4">
     <div class="col-lg-5 mb-lg-0 mb-4">
       <div class="card z-index-2">
@@ -212,10 +212,10 @@
     <div class="col-lg-7">
       <div class="card z-index-2">
         <div class="card-header pb-0">
-          <h6>Sales overview</h6>
+          <h6>Activity Overview</h6>
           <p class="text-sm">
             <i class="fa fa-arrow-up text-success"></i>
-            <span class="font-weight-bold">4% more</span> in 2021
+            <span class="font-weight-bold">4% more</span> in last month
           </p>
         </div>
         <div class="card-body p-3">
