@@ -19069,7 +19069,6 @@ label,
 
 .footer {
   transition: all 0.2s ease-in-out;
-  margin-left: 17.125rem;
 }
 .footer .nav-link {
   color: #344767;
@@ -19081,11 +19080,6 @@ label,
 .footer .nav-link:hover {
   opacity: 1 !important;
   transition: opacity 0.3 ease;
-}
-@media (max-width: 1199px) {
-  .footer {
-    margin-left: 0 !important;
-  }
 }
 
 .bg-gradient-primary {

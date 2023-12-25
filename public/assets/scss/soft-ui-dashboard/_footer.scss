@@ -1,6 +1,6 @@
 .footer {
     transition: all 0.2s ease-in-out;
-    margin-left: 17.125rem;
+    // margin-left: 17.125rem;
     .nav-link {
         color: $dark;
         font-weight: $font-weight-normal;
@@ -13,7 +13,5 @@
             transition: $footer-link-animation;
         }
     }
-    @media (max-width: 1199px) {
-        margin-left: 0 !important;
-    }
+   
 }
