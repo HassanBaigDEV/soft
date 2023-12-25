@@ -4,6 +4,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Organization;
+use App\Models\User;
+use App\Models\Team;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -59,17 +62,70 @@ class OrganizationController extends Controller
         return view('organizations-edit', compact('organization'));
     }
 
-    public function update(Request $request, Organization $organization)
+    public function update(Request $request, $organizationId)
     {
-        // Validation and update logic here
+        // Validate the form data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'members' => 'array',
+            'members.*' => 'exists:users,id',
+            'invite_code' => 'required|string|max:255',
+        ]);
+
+        // Find the organization
+        $organization = Organization::findOrFail($organizationId);
+
+        // Update organization details
+        $organization->name = $request->input('name');
+        $organization->invite_code = $request->input('invite_code');
+
+        // Update organization members
+        $members = $request->input('members', []);
+        $organization->members = $this->updateMembers($organization->members, $members);
+
+        // Save the changes
+        $organization->save();
+
+        // Redirect back or to a specific route
+        return redirect()->route('organizations.view')->with('success', 'Organization updated successfully');
+    }
 
 
-        return redirect()->route('dashboard')->with('success', 'Organization updated successfully.');
+    private function updateMembers($existingMembers, $newMembers)
+    {
+        $existingMembers = json_decode($existingMembers, true);
+
+        // Remove members not included in the new list
+        $existingMembers = array_filter($existingMembers, function ($member) use ($newMembers) {
+            return in_array($member['id'], $newMembers);
+        });
+
+        // Add new members to the list
+        $usersToAdd = User::whereIn('id', $newMembers)->get(['id', 'name'])->toArray();
+
+        foreach ($usersToAdd as $user) {
+            $existingMembers[] = ['id' => $user['id'], 'name' => $user['name']];
+        }
+
+        // Encode the updated members array back to JSON
+        return json_encode($existingMembers);
     }
 
     public function destroy(Organization $organization)
     {
-        // Delete logic here
+        // Delete the organization
+        // Remove related teams
+        $teamIds = Team::where('organization_id', $organization->id)->pluck('id');
+        Project::whereIn('team_id', $teamIds)->delete();
+        Team::where('organization_id', $organization->id)->delete();
+
+        // Get team IDs for further use
+
+        // Remove related projects
+
+        // Delete the organization
+        $organization->delete();
+
 
         return redirect()->route('dashboard')->with('success', 'Organization deleted successfully.');
     }
@@ -98,7 +154,7 @@ class OrganizationController extends Controller
                 $org->filteredMembers = $filteredMembers;
                 $organizations[] = $org;
             }
-        }
+        };
         return view('organizations-view', compact('organizations'));
     }
     public function join(Request $request, Organization $organization)
@@ -148,5 +204,75 @@ class OrganizationController extends Controller
 
         // No organization found with the given invite code
         return redirect()->back()->withErrors(['message' => 'Invalid invitation code. Please check and try again.']);
+    }
+
+    public function addMember(Request $request, $organizationId)
+    {
+        $organization = Organization::findOrFail($organizationId);
+
+        // Validate the incoming member data
+        $request->validate([
+            'memberId' => 'required|integer',
+        ]);
+
+        $newMemberId = $request->input('memberId');
+
+        // Check if the member is not already part of the organization
+        $orgMembers = json_decode($organization->members, true);
+        if (!collect($orgMembers)->contains('id', $newMemberId)) {
+            // Add the new member to the organization
+            $user = User::findOrFail($newMemberId);
+            $newMember = [
+                'id' => $user->id,
+                'name' => $user->name, // You should replace this with actual logic to get member name
+            ];
+
+            $orgMembers[] = $newMember;
+            $organization->members = json_encode($orgMembers);
+            $organization->save();
+
+            return response()->json(['message' => 'Member added successfully']);
+        }
+
+        return response()->json(['error' => 'Member is already part of the organization']);
+    }
+
+
+
+    // Method to remove a member from an organization
+    public function removeMember(Request $request, $organizationId, $memberId)
+    {
+        $organization = Organization::findOrFail($organizationId);
+        $orgMembers = json_decode($organization->members, true);
+
+        // Find the index of the member to remove
+        $indexToRemove = array_search($memberId, array_column($orgMembers, 'id'));
+
+        if ($indexToRemove !== false) {
+            // Remove the member from the organization
+            unset($orgMembers[$indexToRemove]);
+            $organization->members = json_encode(array_values($orgMembers));
+            $organization->save();
+
+            // Remove the member from all teams related to this organization
+            Team::where('organization_id', $organizationId)->get()->each(function ($team) use ($memberId) {
+                $team->members = array_values(array_filter($team->members, function ($member) use ($memberId) {
+                    return $member['id'] != $memberId;
+                }));
+                $team->save();
+            });
+
+            // Remove the member from all projects related to the teams
+            Project::whereIn('team_id', Team::where('organization_id', $organizationId)->pluck('id'))->get()->each(function ($project) use ($memberId) {
+                $project->members = array_values(array_filter($project->members, function ($member) use ($memberId) {
+                    return $member['id'] != $memberId;
+                }));
+                $project->save();
+            });
+
+            return response()->json(['message' => 'Member removed successfully']);
+        }
+
+        return response()->json(['error' => 'Member not found in the organization']);
     }
 }

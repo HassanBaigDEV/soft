@@ -52,7 +52,7 @@
                                                         </li>
                                                       
                                                         <li>
-                                                            <form action="" method="POST">
+                                                            <form action="{{ route('organizations.destroy', $organization->id) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="dropdown-item text-secondary font-weight-bold text-xs border-none background-none" data-toggle="tooltip" data-original-title="Delete project">
@@ -75,6 +75,8 @@
                                 </tbody>
                             </table>
                         </div>
+                        
+                            
                         <div class="modal fade" id="newOrganizationModal" tabindex="-1" role="dialog" aria-labelledby="newOrganizationModalTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
@@ -115,6 +117,7 @@
                                 </div>
                             </div>
                         </div>
+                        @if(count($organizations)!=0)
                         <div class="modal fade" id="membersModal" tabindex="-1" role="dialog" aria-labelledby="membersModalTitle" aria-hidden="true">
                             <!-- Members Modal Content -->
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -130,9 +133,9 @@
                                                 <tr>
                                                     <th>Name</th>
                                                     <th>Email</th>
-                                                    @if(auth()->user()->id === $organization->owner_id)
+                                                   
                                                         <th>Action</th>
-                                                    @endif
+                                               
                                                 </tr>
                                             </thead>
                                             <tbody id="membersList">
@@ -151,7 +154,7 @@
                                                         {{-- <td>{{ $member['email'] }}</td> --}}
                                                         @if(auth()->user()->id === $organization->owner_id)
                                                             <td>
-                                                                <form action="" method="POST">
+                                                                <form action="{{ route('organizations.remove-member', ['organizationId' => $organization->id, 'memberId' => $member['id']]) }}" method="POST">
                                                                     {{-- {{ route('organizations.remove-member', ['organization' => $organization->id, 'member' => $member['id']]) }} --}}
                                                                     @csrf
                                                                     @method('DELETE')
@@ -186,11 +189,11 @@
                                         <div class="modal-body">
                                             <!-- Add member form -->
                                             {{-- {{ route('organizations.add-member', ['organization' => $organization->id]) }} --}}
-                                            <form method="POST" action="">
+                                            <form method="POST" action="{{ route('organizations.add-member', ['organizationId' => $organization->id]) }}">
                                                 @csrf
                                                 <div class="mb-3">
                                                     <label for="searchMember" class="form-label">Search for a User</label>
-                                                    <select class="form-control" id="searchMember" name="searchMember" data-live-search="true">
+                                                    <select class="form-control" id="searchMember" name="memberId" data-live-search="true">
                                                         @foreach (\App\Models\User::all() as $user)
                                                             @if (!in_array($user->id, array_column(json_decode($organization->members, true), 'id')))
                                                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -203,6 +206,7 @@
                                     </div>
                                 </div>
                             </div>
+                        @endif
 
                         </div>
                     </div>

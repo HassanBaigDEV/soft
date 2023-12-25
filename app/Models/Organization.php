@@ -58,6 +58,14 @@ class Organization extends Model
         return self::findOrFail($organizationId);
     }
 
+    // In Organization.php
+
+public function teams()
+{
+    return $this->hasMany(Team::class);
+}
+
+
     // Define relationships for members, teams, and projects if stored as JSON arrays
 
 }

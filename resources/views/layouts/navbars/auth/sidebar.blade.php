@@ -87,6 +87,14 @@
             <span class="nav-link-text ms-1">Teams</span>
         </a>
       </li>
+      <li class="nav-item pb-2">
+        <a class="nav-link {{ (Request::is('organizations') ? 'active' : '') }}" href="{{ url('organizations') }}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i style="font-size: 1rem;" class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ (Request::is('organizations') ? 'text-white' : 'text-dark') }} " aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Organizations</span>
+        </a>
+      </li>
       <li class="nav-item">
         <a class="nav-link {{ (Request::is('profile') ? 'active' : '') }}" href="{{ url('profile') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -129,14 +137,14 @@
             <span class="nav-link-text ms-1">User Profile</span>
         </a>
       </li>
-      <li class="nav-item pb-2">
+      {{-- <li class="nav-item pb-2">
         <a class="nav-link {{ (Request::is('user-management') ? 'active' : '') }}" href="{{ url('user-management') }}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i style="font-size: 1rem;" class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ (Request::is('user-management') ? 'text-white' : 'text-dark') }} " aria-hidden="true"></i>
             </div>
             <span class="nav-link-text ms-1">User Management</span>
         </a>
-      </li>
+      </li> --}}
     </ul>
   </div>
 </aside>

@@ -26,26 +26,12 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="members">Add Members</label>
+                    <label for="members">Edit Members</label>
                     <select class="form-control" id="members" name="members[]" multiple>
                         @foreach (\App\Models\User::all() as $user)
-                            @if (!in_array($user->id, array_column(json_decode($organization->members, true), 'id')))
+                             @if ($user->id !== $organization->owner->id)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="members">Remove Members</label>
-                    <select class="form-control" id="members" name="members[]" multiple>
-                        @foreach (\App\Models\User::all() as $user)
-                            @if (in_array($user->id, array_column(json_decode($organization->members, true), 'id')))
-                                @if($user->id!==$organization->owner_id)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endif
-                            @endif
+                             @endif 
                         @endforeach
                     </select>
                 </div>

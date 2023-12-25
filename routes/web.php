@@ -26,8 +26,8 @@ Route::group(['middleware' => 'auth'], function () {
 		$completeCount = Project::where('status', 'completed')->count();
 		$inProgress = Project::where('status', 'in progress')->count();
 		$usersCount = User::count();
-        $organizationsCount = Organization::count();
-        $teamsCount = Team::count();
+		$organizationsCount = Organization::count();
+		$teamsCount = Team::count();
 		$projectsCount = Project::count();
 		return view('dashboard', compact('projects', 'completeCount', 'inProgress', 'usersCount', 'organizationsCount', 'teamsCount', 'projectsCount'));
 	})->name('dashboard');
@@ -78,6 +78,14 @@ Route::get('/login', function () {
 // Routes for Organizations
 Route::middleware(['auth'])->group(function () {
 	Route::post('/organizations', [OrganizationController::class, 'store'])->name('organizations.store');
+	// Route::delete('/organization/delete-member/{organizationId}/{userId}', [OrganizationController::class, 'deleteMember'])->name('organizations.delete-member');
+	// Route::post('organizations/{organization}}', [OrganizationController::class, 'addMember'])->name('organizations.add-member');
+	// Route::post('/organization/{organizationId}', [OrganizationController::class, 'leave'])->name('organizations.leave');
+	// Remove a member from an organization
+
+	Route::post('/organization/{organizationId}/add-member', [OrganizationController::class, 'addMember'])->name('organizations.add-member');
+	Route::delete('/organization/{organizationId}/remove-member/{memberId}', [OrganizationController::class, 'removeMember'])->name('organizations.remove-member');
+
 	Route::get('/organizations/create', [OrganizationController::class, 'create'])->name('organizations.create');
 	Route::post('/organizations/join', [OrganizationController::class, 'join'])->name('organizations.join');
 	Route::get('/organizations', [OrganizationController::class, 'view'])->name('organizations.view');

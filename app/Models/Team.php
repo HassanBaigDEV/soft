@@ -27,5 +27,12 @@ class Team extends Model
         return $this->belongsTo(\App\Models\User::class, 'team_head');
     }
 
+    // In Team.php
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
     // Define relationships for members and projects if stored as JSON arrays
 }
