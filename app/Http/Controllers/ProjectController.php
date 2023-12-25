@@ -107,24 +107,24 @@ class ProjectController extends Controller
 
         try {
             DB::table('projects')
-            ->where('id', $project->id)
-            ->update([
-                'team_id' => $team_id,
-                'name' => $name,
-                'description' => $description,
-                'members' => $members,
-                'status' => $status,
-                'start_date' => $start_date,
-                'end_date' => $end_date,
-                'updated_at' => $updated_at,  // Assuming you want to update the created_at field as well
-            ]);            return redirect()->route('projects.view')->with('success', 'Project Updated successfully.');
-
+                ->where('id', $project->id)
+                ->update([
+                    'team_id' => $team_id,
+                    'name' => $name,
+                    'description' => $description,
+                    'members' => $members,
+                    'status' => $status,
+                    'start_date' => $start_date,
+                    'end_date' => $end_date,
+                    'updated_at' => $updated_at,  // Assuming you want to update the created_at field as well
+                ]);
+            return redirect()->route('projects.view')->with('success', 'Project Updated successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Failed to create the project.');
         };
     }
-    
+
 
     public function destroy(Request $request, Project $project)
     {
@@ -171,13 +171,14 @@ class ProjectController extends Controller
                     $filteredMembers = collect($projectMembers)->filter(function ($member) use ($user) {
                         return is_array($member) && isset($member['id']) && $member['id'] === $user->id;
                     })->values()->toArray();
-    
+
                     $project->filteredMembers = $filteredMembers;
                     $projects[] = $project;
                 }
             }
         }
-        
+
         return view('projects-view', compact('projects'));
     }
+  
 }

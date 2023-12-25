@@ -48,32 +48,24 @@ class User extends Authenticatable
     /**
      * User belongs to many organizations.
      */
+
     public function organizations()
     {
-        return $this->belongsToMany(Organization::class, 'user_organization');
+        return $this->belongsToMany(Organization::class, 'organizations');
     }
 
-    /**
-     * User belongs to many teams.
-     */
     public function teams()
     {
-        return $this->belongsToMany(Team::class, 'user_team');
+        return $this->belongsToMany(Team::class, 'teams');
     }
 
-    /**
-     * User has many projects.
-     */
     public function projects()
     {
-        return $this->hasMany(Project::class);
+        return $this->belongsToMany(Project::class, 'projects');
     }
 
-    /**
-     * User has many tasks.
-     */
     public function tasks()
     {
-        return $this->hasMany(Task::class, 'assigned_to');
+        return $this->hasMany(Task::class);
     }
 }

@@ -92,43 +92,78 @@
       </div>
     </div>
   </div> -->
+ 
   <div class="row mt-4">
-    <div class="col-lg-5 mb-lg-0 mb-4">
+    <div class="col-lg-12 mb-lg-0 mb-4">
       <div class="card z-index-2">
         <div class="card-body p-3">
-          <div class="bg-gradient-dark border-radius-lg py-3 pe-1 mb-3">
-            <div class="chart">
-              <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+          <h6 class="ms-2 mt-4 mb-0"> Projects </h6>
+          <p class="text-sm ms-2"> (<span class="font-weight-bolder">{{$projectInProgressCount}}</span>) in progress </p>
+          <div class="status-card-container">
+            <div class="status-card">
+                <span style="display: flex; align-items:center; padding:3px">
+             
+                <h4 class="not-started">Not Started</h4>
+              </span>
+                <p class="not-started">{{$projectNotStarted}}</p>
             </div>
-          </div>
-          <h6 class="ms-2 mt-4 mb-0"> Activity </h6>
-          <p class="text-sm ms-2"> (<span class="font-weight-bolder">{{$inProgress}}</span>) in progress </p>
+            <div class="status-card">
+                <span style="display: flex; align-items:center; padding:3px">
+         
+                  <h4 class="in-progress">In Progress</h4>
+                </span>
+                <p class="in-progress">{{$projectInProgressCount}}</p>
+            </div>
+            <div class="status-card">
+              <span style="display: flex; align-items:center; padding:3px">
+            
+              <h4 class="completed">Completed</h4>
+            </span>
+            <p class="completed">{{$projectCompleteCount}}</p>
+            </div>
+            <div class="status-card">
+              <span style="display: flex; align-items:center; padding:3px">
+           
+              <h4 class="cancelled" >Cancelled</h4>
+            </span>
+            <p class="cancelled">{{$projectCancelledCount}}</p>
+            </div>
+        </div>
+        
+        <h6 class="ms-2 mt-4 mb-0"> Tasks </h6>
+          <p class="text-sm ms-2"> (<span class="font-weight-bolder">{{$taskInProgressCount}}</span>) in progress </p>
+          <div class="status-card-container">
+            <div class="status-card">
+                <span style="display: flex; align-items:center; padding:3px">
+             
+                <h4 class="not-started">Not Started</h4>
+              </span>
+                <p class="not-started">{{$taskNotStarted}}</p>
+            </div>
+            <div class="status-card">
+                <span style="display: flex; align-items:center; padding:3px">
+         
+                  <h4 class="in-progress">In Progress</h4>
+                </span>
+                <p class="in-progress">{{$taskInProgressCount}}</p>
+            </div>
+            <div class="status-card">
+              <span style="display: flex; align-items:center; padding:3px">
+            
+              <h4 class="completed">Completed</h4>
+            </span>
+            <p class="completed">{{$taskCompletedCount}}</p>
+            </div>
+            <div class="status-card">
+              <span style="display: flex; align-items:center; padding:3px">
+           
+              <h4 class="cancelled" >Cancelled</h4>
+            </span>
+            <p class="cancelled">{{$taskCancelledCount}}</p>
+            </div>
+        </div>
           <div class="container border-radius-lg">
-            <div class="row">
-              <div class="col-3 py-3 ps-0">
-                <div class="d-flex mb-2">
-                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-primary text-center me-2 d-flex align-items-center justify-content-center">
-                    <svg width="10px" height="10px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                      <title>document</title>
-                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                          <g transform="translate(1716.000000, 291.000000)">
-                            <g transform="translate(154.000000, 300.000000)">
-                              <path class="color-background" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z" opacity="0.603585379"></path>
-                              <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
-                            </g>
-                          </g>
-                        </g>
-                      </g>
-                    </svg>
-                  </div>
-                  <p class="text-xs mt-1 mb-0 font-weight-bold">Users</p>
-                </div>
-                <h4 class="font-weight-bolder">{{$usersCount}}</h4>
-                <div class="progress w-75">
-                  <div class="progress-bar bg-dark w-60" role="progressbar" aria-valuenow="{{$usersCount}}" aria-valuemin="0" aria-valuemax="10" style="width: {{ $usersCount }}%;"></div>
-                </div>
-              </div>
+            <div class="row">  
               <div class="col-3 py-3 ps-0">
                 <div class="d-flex mb-2">
                   <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-info text-center me-2 d-flex align-items-center justify-content-center">
@@ -179,6 +214,7 @@
                   <div class="progress-bar bg-dark w-30" role="progressbar" aria-valuenow="{{$teamsCount}}" aria-valuemin="0" aria-valuemax="10" style="width: {{ $projectsCount }}%;"></div>
                 </div>
               </div>
+              
               <div class="col-3 py-3 ps-0">
                 <div class="d-flex mb-2">
                   <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-danger text-center me-2 d-flex align-items-center justify-content-center">
@@ -204,27 +240,35 @@
                   <div class="progress-bar bg-dark w-50" role="progressbar" aria-valuenow="{{$projectsCount}}" aria-valuemin="0" aria-valuemax="10" style="width: {{ $projectsCount }}%;"></div>
                 </div>
               </div>
-            </div>
+             <di class="col-3 py-3 ps-0">
+                <div class="d-flex mb-2">
+                  <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-primary text-center me-2 d-flex align-items-center justify-content-center">
+                    <svg width="10px" height="10px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <title>document</title>
+                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                          <g transform="translate(1716.000000, 291.000000)">
+                            <g transform="translate(154.000000, 300.000000)">
+                              <path class="color-background" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z" opacity="0.603585379"></path>
+                              <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>
+                  </div>
+                  <p class="text-xs mt-1 mb-0 font-weight-bold">Tasks</p>
+                </div>
+                 <h4 class="font-weight-bolder">{{$tasksCount}}</h4>
+                <div class="progress w-75">
+                  <div class="progress-bar bg-dark w-60" role="progressbar" aria-valuenow="{{$tasksCount}}" aria-valuemin="0" aria-valuemax="10" style="width: {{ $tasksCount }}%;"></div>
+                </div> 
+            </di>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-7">
-      <div class="card z-index-2">
-        <div class="card-header pb-0">
-          <h6>Activity Overview</h6>
-          <p class="text-sm">
-            <i class="fa fa-arrow-up text-success"></i>
-            <span class="font-weight-bold">4% more</span> in last month
-          </p>
-        </div>
-        <div class="card-body p-3">
-          <div class="chart">
-            <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
+  
   </div>
   <div class="row my-4">
     <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
@@ -235,7 +279,7 @@
               <h6>Projects</h6>
               <p class="text-sm mb-0">
                 <i class="fa fa-check text-info" aria-hidden="true"></i>
-                <span class="font-weight-bold ms-1">{{ $completeCount }} done</span> this month
+                <span class="font-weight-bold ms-1">{{ $projectCompleteCount }} done</span> this month
               </p>
             </div>
             <div class="col-lg-6 col-5 my-auto text-end">
@@ -302,6 +346,109 @@
     </div>
   </div>
 
+  <style>
+    .status-card-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+
+    @media (max-width: 992px) {
+     .status-card{
+      width: 170px !important;
+      p{
+      font-size: 18px;
+   
+    }
+    h4{
+        font-size: 22px;
+    }
+  }
+
+    }
+    @media screen and (max-width: 800px) {
+      .status-card{
+      width: 153px !important;
+      p{
+      font-size: 16px;
+    }
+    h4{
+        font-size: 19px;
+    }
+  }
+  }
+  @media screen and (max-width: 740px) {
+    /* flex-wrap: wrap;   */
+   
+    display: flex;
+    flex-wrap: wrap;
+
+  
+  .status-card {
+    width: calc(50% - 10px) !important;
+    margin: 5px;
+  }
+  .status-card p {
+    font-size: 20px;
+    font-weight: 500;
+  }   
+ 
+  }
+  @media screen and (max-width: 450px) {
+    flex-direction: column;
+    .status-card {
+    width: 90% !important;
+  }
+  .status-card p {
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .status-card h4 {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  }
+}
+
+    .status-card {
+    width: 200px;
+    padding: 10px;
+    height: 150px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    p{
+      font-size: 20px;
+    font-weight: 500;
+        /* color: #000; */
+    }
+    h4{
+        font-size: 24px;
+        font-weight: 700;
+        /* color: #000;      */
+        padding:3px;
+    }
+    .completed{
+      color:  #98ec2d
+    }
+    .in-progress{
+      color: #21d4fd;
+    }
+    .cancelled{
+      color: #ea0606;
+    }
+    .not-started{
+      color: #fbcf33;
+  }
+}
+</style>
 @endsection
 @push('dashboard')
   <script>

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
 use App\Models\Task;
 use App\Models\Project;
@@ -21,16 +22,8 @@ use App\Models\Organization;
 
 Route::group(['middleware' => 'auth'], function () {
 
-	Route::get('dashboard', function () {
-		$projects = Project::all();
-		$completeCount = Project::where('status', 'completed')->count();
-		$inProgress = Project::where('status', 'in progress')->count();
-		$usersCount = User::count();
-		$organizationsCount = Organization::count();
-		$teamsCount = Team::count();
-		$projectsCount = Project::count();
-		return view('dashboard', compact('projects', 'completeCount', 'inProgress', 'usersCount', 'organizationsCount', 'teamsCount', 'projectsCount'));
-	})->name('dashboard');
+	Route::get('/dashboard', [UserController::class,'dashboard'])->name('dashboard');
+
 
 	Route::get('profile', function () {
 		$user = auth()->user();
