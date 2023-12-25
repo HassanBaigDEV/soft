@@ -21,7 +21,6 @@ use App\Models\Organization;
 
 Route::group(['middleware' => 'auth'], function () {
 
-	Route::get('/', [HomeController::class, 'home']);
 	Route::get('dashboard', function () {
 		$projects = Project::all();
 		$completeCount = Project::where('status', 'completed')->count();
@@ -33,30 +32,15 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('dashboard', compact('projects', 'completeCount', 'inProgress', 'usersCount', 'organizationsCount', 'teamsCount', 'projectsCount'));
 	})->name('dashboard');
 
-	Route::get('billing', function () {
-		return view('billing');
-	})->name('billing');
-
 	Route::get('profile', function () {
 		$user = auth()->user();
 		return view('profile', compact('user'));
 	})->name('profile');
 
-	Route::get('rtl', function () {
-		return view('rtl');
-	})->name('rtl');
-
 	Route::get('user-management', function () {
-		return view('laravel-examples/user-management');
+		$users = User::all();
+		return view('laravel-examples/user-management', compact('users'));
 	})->name('user-management');
-
-	Route::get('tables', function () {
-		return view('tables');
-	})->name('tables');
-
-	Route::get('virtual-reality', function () {
-		return view('virtual-reality');
-	})->name('virtual-reality');
 
 	Route::get('static-sign-in', function () {
 		return view('static-sign-in');
@@ -75,8 +59,6 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('sign-up');
 });
 
-
-
 Route::group(['middleware' => 'guest'], function () {
 	Route::get('/register', [RegisterController::class, 'create']);
 	Route::post('/register', [RegisterController::class, 'store']);
@@ -88,13 +70,10 @@ Route::group(['middleware' => 'guest'], function () {
 	Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 });
 
-
 //routes for projects
-
 Route::get('/login', function () {
 	return view('session/login-session');
 })->name('login');
-
 
 // Routes for Organizations
 Route::middleware(['auth'])->group(function () {
@@ -128,7 +107,6 @@ Route::middleware(['auth', 'can:manageTasks,project'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-
 	Route::get('/projects', [ProjectController::class, 'view'])->name('projects.view');
 	Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
 	Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
@@ -141,7 +119,6 @@ Route::get('/projects/{project}/tasks/create', [TaskController::class, 'create']
 Route::post('/projects/{project}/tasks', [TaskController::class, 'store'])->name('tasks.store');
 Route::middleware(['auth', 'can:updateTask,task'])->group(function () {
 });
-
 
 // Route::delete('/projects/{project}/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 Route::middleware(['auth'])->group(function () {

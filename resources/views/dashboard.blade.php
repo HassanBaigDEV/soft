@@ -269,17 +269,15 @@
                       <td>
                           <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $project->name }}</p>
                       </td>
-                      <td class="text-center">
-                        <div class="card" style="height: {{ count(json_decode($project->members)) * 50 }}px;">
-                            <div class="card-body p-3">                                
-                              @foreach(json_decode($project->members) as $member)
-                                  @if(is_object($member) && isset($member->name))
-                                    <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        {{ $member->name }}
-                                    </p>
-                                  @endif
-                              @endforeach                                
-                            </div>
+                      <td class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                        <div class="card" style="height: {{ count(json_decode($project->members)) * 50 }}px;">                              
+                          @foreach(json_decode($project->members) as $member)
+                              @if(is_object($member) && isset($member->name))
+                                <p class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    {{ $member->name }}
+                                </p>
+                              @endif
+                          @endforeach
                         </div>
                       </td>
                       <td class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $project->start_date }}</td>
