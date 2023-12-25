@@ -58,27 +58,39 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
+                                            @php
+                                                $project = $task->project
+                                                $team = $project->team;
+                                            @endphp
+
+                                            @if(auth()->user()->id === $team->team_head)
                                             <div class="dropdown">
                                                 <a href="#" class="btn btn-link text-secondary mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
                                                     <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
                                                 </a>
                                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                                                     <li>
-                                            <a href="{{ route('tasks.edit', $task->id) }}" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit task">
-                                                Edit
-                                            </a>
+                                                        <a href="{{ route('tasks.edit', $task->id) }}" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit task">
+                                                            Edit
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        
-                                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="">
-                                                @csrf
-                                                
-                                                @method('DELETE')
-                                                <button type="submit" class="dropdown-item text-secondary font-weight-bold text-xs border-none background-none" data-toggle="tooltip" data-original-title="Delete project">
-                                                    Delete
-                                                </button>
-                                            </form>
+                                                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="dropdown-item text-secondary font-weight-bold text-xs border-none background-none" data-toggle="tooltip" data-original-title="Delete project">
+                                                                Delete
+                                                            </button>
+                                                        </form>
                                                     </li>
+                                                <ul>
+                                            </div>
+                                            @else
+                                             <!-- Disable action buttons -->
+                                             <button class="btn btn-link text-secondary mb-0" disabled>
+                                                        <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

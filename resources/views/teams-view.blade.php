@@ -52,6 +52,7 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
+                                            @if(auth()->user()->id === $team->team_head)
                                             <div class="dropdown">
                                                 <a href="#" class="btn btn-link text-secondary mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
                                                     <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
@@ -73,6 +74,12 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                            @else
+                                             <!-- Disable action buttons -->
+                                             <button class="btn btn-link text-secondary mb-0" disabled>
+                                                        <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

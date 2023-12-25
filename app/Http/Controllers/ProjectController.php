@@ -14,6 +14,7 @@ class ProjectController extends Controller
 {
     public function create(Team $team)
     {
+
         $user = auth()->user();
         $teams = Team::where('team_head', $user->id)->get(); // Get all teams
 

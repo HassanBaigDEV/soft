@@ -23,6 +23,8 @@ class OrganizationSeeder extends Seeder
                 '1' => ['id' => 1, 'name' => 'admin'],
                 '2' => ['id' => 2, 'name' => 'John Doe'],
                 '3' => ['id' => 3, 'name' => 'Jane Doe'],
+                '4' => ['id' => 4, 'name' => 'Bob Smith'],
+                '5' => ['id' => 5, 'name' => 'Alice Johnson'],                
             ]),
             'created_at' => now(),
             'updated_at' => now()
@@ -31,12 +33,12 @@ class OrganizationSeeder extends Seeder
         // Organization 2
         DB::table('organizations')->insert([
             'name' => 'Sample Organization 2',
-            'owner_id' => 2, // Replace with another user ID
+            'owner_id' => 7, // Replace with another user ID
             'invite_code' => \Illuminate\Support\Str::uuid(),
             'members' => json_encode([
-                '1' => ['id' => 1, 'name' => 'admin'],
-                '4' => ['id' => 4, 'name' => 'Bob Smith'],
-                '5' => ['id' => 5, 'name' => 'Alice Johnson'],
+                '6' => ['id' => 6, 'name' => 'Michael Davis'],            
+                '7' => ['id' => 7, 'name' => 'Emily Wilson'],
+                '8' => ['id' => 8, 'name' => 'David Turner'],
             ]),
             'created_at' => now(),
             'updated_at' => now()

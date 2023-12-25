@@ -1,53 +1,58 @@
-  @extends('layouts.user_type.auth')
+@extends('layouts.user_type.auth')
 
-  @section('content')
-  
-  <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg">
-      <div class="container-fluid py-4">
-          <div class="row">
-              <div class="col-12">
-                  <div class="card mb-4">
-                      <div class="card-header pb-0">
-                          <h6>Projects</h6>
-                      </div>
-                      <div class="card-body px-0 pt-0 pb-2">
+@section('content')
+
+<main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6>Projects</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
                         <div class="d-flex justify-content-end mb-3">
                             <a href="/project/create" class="btn btn-primary" style="margin-right:10px">
                                 <i class="fa fa-plus"></i> New Project
                             </a>
                         </div>
-                          <div class="table-responsive p-0" style="overflow-x: hidden">
-                              <table class="table align-items-center mb-0" id="projects-table">
-                                  <thead>
-                                      <tr>
-                                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project</th>
-                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Start Date</th>
-                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">End Date</th>
-                                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody >
-                                      @foreach($projects as $project)
-                                      <tr>
-                                          <td>
-                                              <p class="text-xs font-weight-bold mb-0">{{ $project->name }}</p>
-                                              <p class="text-xs text-secondary mb-0">{{ $project->description }}</p>
-                                            </td>
-                                            <td class="text-center">
-                                                @if($project->status === 'not started')
+                        <div class="table-responsive p-0" style="overflow-x: hidden">
+                            <table class="table align-items-center mb-0" id="projects-table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Start Date</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">End Date</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($projects as $project)
+                                    <tr>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $project->name }}</p>
+                                            <p class="text-xs text-secondary mb-0">{{ $project->description }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            @if($project->status === 'not started')
                                                 <span class="badge badge-sm bg-gradient-warning">Not Started</span>
-                                                @elseif($project->status === 'in progress')
+                                            @elseif($project->status === 'in progress')
                                                 <span class="badge badge-sm bg-gradient-info">In Progress</span>
-                                                @elseif($project->status === 'completed')
+                                            @elseif($project->status === 'completed')
                                                 <span class="badge badge-sm bg-gradient-success">Completed</span>
-                                                @else
+                                            @else
                                                 <span class="badge badge-sm bg-gradient-danger">Cancelled</span>
-                                                @endif
-                                            </td>
-                                          <td class="text-center">{{ $project->start_date }}</td>
-                                          <td class="text-center">{{ $project->end_date }}</td>
-                                          <td class="text-center">
+                                            @endif
+                                        </td>
+                                        <td class="text-center">{{ $project->start_date }}</td>
+                                        <td class="text-center">{{ $project->end_date }}</td>
+                                        <td class="text-center">
+                                            @php
+                                                $team = $project->team;
+                                            @endphp
+
+                                            @if(auth()->user()->id === $team->team_head)
                                             <div class="dropdown">
                                                 <a href="#" class="btn btn-link text-secondary mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
                                                     <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
@@ -72,27 +77,25 @@
                                                             </button>
                                                         </form>
                                                     </li>
-                                                    
                                                 </ul>
-                                              </div>
-                                             
-                                             
-                                             
-                                          </td>
-                                      </tr>
-                                      @endforeach
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </main>
+                                            </div>
+                                            @else
+                                             <!-- Disable action buttons -->
+                                             <button class="btn btn-link text-secondary mb-0" disabled>
+                                                        <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
+                                                </button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
-  
-  @endsection
-
-  
-  
+@endsection

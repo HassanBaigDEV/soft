@@ -18,7 +18,7 @@ class TaskSeeder extends Seeder
         // Task 1 - Member 1
         DB::table('tasks')->insert([
             'project_id' => 1,
-            'name' => 'Task 1 for Admin',
+            'name' => 'Task 1',
             'description' => 'This is Task 1 assigned to Admin.',
             'status' => 'completed',
             'due_date' => now()->addDays(15),
@@ -30,7 +30,7 @@ class TaskSeeder extends Seeder
         // Task 2 - Member 2
         DB::table('tasks')->insert([
             'project_id' => 1,
-            'name' => 'Task 2 for John Doe',
+            'name' => 'Task 2 ',
             'description' => 'This is Task 2 assigned to John Doe.',
             'status' => 'completed',
             'due_date' => now()->addDays(15),
@@ -39,10 +39,11 @@ class TaskSeeder extends Seeder
             'updated_at' => now()
         ]);
 
+        // Project 2 Tasks
         // Task 3 - Member 3
         DB::table('tasks')->insert([
             'project_id' => 2,
-            'name' => 'Task 3 for Jane Doe',
+            'name' => 'Task 3 ',
             'description' => 'This is Task 3 assigned to Jane Doe.',
             'status' => 'not started',
             'due_date' => now()->addDays(15),
@@ -54,7 +55,7 @@ class TaskSeeder extends Seeder
         // Task 4 - Member 1
         DB::table('tasks')->insert([
             'project_id' => 2,
-            'name' => 'Task 4 for Admin',
+            'name' => 'Task 4',
             'description' => 'This is Task 4 assigned to Admin.',
             'status' => 'completed',
             'due_date' => now()->addDays(15),
@@ -63,14 +64,15 @@ class TaskSeeder extends Seeder
             'updated_at' => now()
         ]);
 
+        // Project 3 Tasks
         // Task 5 - Member 2
         DB::table('tasks')->insert([
             'project_id' => 3,
-            'name' => 'Task 5 for John Doe',
-            'description' => 'This is Task 5 assigned to John Doe.',
+            'name' => 'Task 5 ',
+            'description' => 'This is Task 5 assigned to Bob Smith.',
             'status' => 'completed',
             'due_date' => now()->addDays(15),
-            'assigned_to' => 2,
+            'assigned_to' => 4,
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -78,24 +80,24 @@ class TaskSeeder extends Seeder
         // Task 6 - Member 3
         DB::table('tasks')->insert([
             'project_id' => 3,
-            'name' => 'Task 6 for Jane Doe',
-            'description' => 'This is Task 6 assigned to Jane Doe.',
+            'name' => 'Task 6 ',
+            'description' => 'This is Task 6 assigned to Alice Johnson.',
             'status' => 'completed',
             'due_date' => now()->addDays(15),
-            'assigned_to' => 3,
+            'assigned_to' => 5,
             'created_at' => now(),
             'updated_at' => now()
         ]);
 
-        // Project 2 Tasks
+        // Project 4 Tasks
         // Task 7 - Member 1
         DB::table('tasks')->insert([
             'project_id' => 4,
-            'name' => 'Task 7 for Admin',
-            'description' => 'This is Task 7 assigned to Admin.',
+            'name' => 'Task 7 ',
+            'description' => 'This is Task 7 assigned to Emily Wilson.',
             'status' => 'not started',
             'due_date' => now()->addDays(15),
-            'assigned_to' => 1,
+            'assigned_to' => 7,
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -103,23 +105,24 @@ class TaskSeeder extends Seeder
         // Task 8 - Member 4
         DB::table('tasks')->insert([
             'project_id' => 4,
-            'name' => 'Task 8 for Bob Smith',
-            'description' => 'This is Task 8 assigned to Bob Smith.',
+            'name' => 'Task 8 ',
+            'description' => 'This is Task 8 assigned to David Turner.',
             'status' => 'not started',
             'due_date' => now()->addDays(15),
-            'assigned_to' => 4,
+            'assigned_to' => 8,
             'created_at' => now(),
             'updated_at' => now()
         ]);
 
+        // Project 5 Tasks
         // Task 9 - Member 5
         DB::table('tasks')->insert([
             'project_id' => 5,
-            'name' => 'Task 9 for Alice Johnson',
-            'description' => 'This is Task 9 assigned to Alice Johnson.',
+            'name' => 'Task 9 ',
+            'description' => 'This is Task 9 assigned to Michael Davis.',
             'status' => 'not started',
             'due_date' => now()->addDays(15),
-            'assigned_to' => 5,
+            'assigned_to' => 6,
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -127,37 +130,14 @@ class TaskSeeder extends Seeder
         // Task 10 - Member 1
         DB::table('tasks')->insert([
             'project_id' => 5,
-            'name' => 'Task 10 for Admin',
-            'description' => 'This is Task 10 assigned to Admin.',
+            'name' => 'Task 10 ',
+            'description' => 'This is Task 10 assigned to Emily Wilson.',
             'status' => 'not started',
             'due_date' => now()->addDays(15),
-            'assigned_to' => 1,
+            'assigned_to' => 7,
             'created_at' => now(),
             'updated_at' => now()
         ]);
 
-        // Task 11 - Member 4
-        DB::table('tasks')->insert([
-            'project_id' => 6,
-            'name' => 'Task 11 for Bob Smith',
-            'description' => 'This is Task 11 assigned to Bob Smith.',
-            'status' => 'not started',
-            'due_date' => now()->addDays(15),
-            'assigned_to' => 4,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-
-        // Task 12 - Member 5
-        DB::table('tasks')->insert([
-            'project_id' => 6,
-            'name' => 'Task 12 for Alice Johnson',
-            'description' => 'This is Task 12 assigned to Alice Johnson.',
-            'status' => 'not started',
-            'due_date' => now()->addDays(15),
-            'assigned_to' => 5,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
     }
 }
