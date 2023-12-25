@@ -31,7 +31,7 @@
                                         <tr>
                                             <td>
                                                 <a href="" class="text-xs font-weight-bold mb-0">{{ $organization->name }}</a>                                             </td>
-                                            <td class="text-center" data-bs-toggle="modal" data-bs-target="#membersModal" data-organization-id="{{ $organization->id }}">
+                                            <td class="text-center member-count" data-bs-toggle="modal" data-bs-target="#membersModal" data-organization-id="{{ $organization->id }}">
                                                 {{ count(json_decode($organization->members, true)) }}
                                             </td>
                                             <td class="text-center">
@@ -219,6 +219,9 @@
 {{-- @section('styles') --}}
     <!-- Add your additional styles here if needed -->
     <style>
+        .member-count{
+            cursor: pointer;
+        }
         .copy-icon {
             color: #007bff;
         }
