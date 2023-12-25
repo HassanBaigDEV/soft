@@ -64,7 +64,7 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{ route('tasks.index', ['project' => $project->id]) }}" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="View tasks">
+                                                        <a href="{{ route('tasks.index', ['project' => $project]) }}" class="dropdown-item text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="View tasks">
                                                             View Tasks
                                                         </a>
                                                     </li>

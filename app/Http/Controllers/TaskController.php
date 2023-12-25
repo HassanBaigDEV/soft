@@ -107,8 +107,9 @@ class TaskController extends Controller
     {
         // $this->authorize('manageTasks', $project);
         $tasks = $project->tasks;
+        $team = $project->team;
 
-        return view('tasks-index', compact('tasks', 'project'));
+        return view('tasks-index', compact('tasks', 'project', 'team'));
     }
     public function show()
     {

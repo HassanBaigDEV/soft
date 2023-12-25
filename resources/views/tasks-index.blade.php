@@ -58,11 +58,6 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            @php
-                                                $project = $task->project
-                                                $team = $project->team;
-                                            @endphp
-
                                             @if(auth()->user()->id === $team->team_head)
                                             <div class="dropdown">
                                                 <a href="#" class="btn btn-link text-secondary mb-0" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
