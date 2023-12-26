@@ -122,6 +122,7 @@
                             <!-- Members Modal Content -->
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
+                            
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="membersModalTitle">Organization Members</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -218,6 +219,7 @@
 
 {{-- @section('styles') --}}
     <!-- Add your additional styles here if needed -->
+{{-- @endsection --}}
     <style>
         .member-count{
             cursor: pointer;
@@ -229,14 +231,21 @@
         .copy-icon:hover {
             text-decoration: underline;
         }
+        .footer{
+            margin-left: 17.125rem;
+
+            @media screen and (max-width:1199.98px){
+                margin-left: 0 !important;
+            }
+        }
 
     </style>
-{{-- @endsection --}}
+
 
 {{-- @section('scripts') --}}
     <!-- Add your additional scripts here if needed -->
 <!-- Include Bootstrap Select CSS and JS files -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
 <!-- Add your additional scripts here if needed -->
@@ -245,7 +254,7 @@
     $(document).ready(function () {
         $('#searchMember').selectpicker();
     });
-</script>
+</script> --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

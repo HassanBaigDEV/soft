@@ -231,10 +231,12 @@ class OrganizationController extends Controller
             $organization->members = json_encode($orgMembers);
             $organization->save();
 
-            return response()->json(['message' => 'Member added successfully']);
+            redirect()->route('dashboard')->with('success', "Member added ");
+
+            // return response()->json(['message' => 'Member added successfully']);
         }
 
-        return response()->json(['error' => 'Member is already part of the organization']);
+        redirect()->route('dashboard')->with('success', "Member already a part of organization ");
     }
 
 
