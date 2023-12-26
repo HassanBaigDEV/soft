@@ -83,12 +83,5 @@
         option.text = `${value.name}`;
         document.getElementById("member").appendChild(option);
     });
-    // document.querySelector('form').addEventListener('submit', function () {
-        //add a hidden input for member
-                                                                    
-                                
-                                
-
-
     </script>
 @endsection

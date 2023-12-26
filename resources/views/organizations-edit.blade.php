@@ -49,13 +49,4 @@
         <button type="submit" class="btn btn-primary">Update Organization</button>
     </form>
 </div>
-
-<style>
-    /* Add your additional styles here if needed */
-</style>
-
-<script>
-    // Add your additional scripts here if needed
-</script>
-
 @endsection
