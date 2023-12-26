@@ -47,8 +47,8 @@
           <div class="col-8 mx-auto text-center mt-1">
             <p class="mb-0 text-secondary">
               Copyright © <script> document.write(new Date().getFullYear())</script> 
-              <a href="" class="font-weight-bold" target="_blank">Tenz</a>
-              &amp; <a style="color: #252f40;" href="" class="font-weight-bold ml-1" target="_blank">Miracle</a>
+              {{-- <a href="" class="font-weight-bold" target="_blank">Tenz</a>
+              &amp; <a style="color: #252f40;" href="" class="font-weight-bold ml-1" target="_blank">Miracle</a> --}}
           </div>
         </div>
       @endif
