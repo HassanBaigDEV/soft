@@ -59,7 +59,7 @@
                                                 </a>
                                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                                                     <li>
-                                                        <a href="" class="dropdown-item text-secondary font-weight-bold text-xs border-none background-none" style="margin-right:10px">
+                                                        <a href="{{ route('teams.edit', $team->id) }}" class="dropdown-item text-secondary font-weight-bold text-xs border-none background-none" style="margin-right:10px">
                                                             Edit
                                                         </a>
                                                     </li>
