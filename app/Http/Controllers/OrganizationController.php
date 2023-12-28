@@ -81,35 +81,83 @@ class OrganizationController extends Controller
 
         // Update organization members
         $members = $request->input('members', []);
-        $organization->members = $this->updateMembers($organization->members, $members);
+        $ownerId =  $organization->owner_id;
+        $organization->members = $this->updateMembers($organization->members, $members, $ownerId);
+        // return $organization->members;
 
         // Save the changes
         $organization->save();
+        
+        $teams = Team::where('organization_id', $organizationId)->get();
+
+
+    foreach($members as $memberId){
+        foreach ($teams as $team) {
+            $teamMembers = json_decode($team->members, true);
+            $teamIndexToRemove = array_search($memberId, array_column($teamMembers, 'id'));
+            // return $teamIndexToRemove;
+            if ($teamIndexToRemove !== false) {
+                // Remove the member from the organization
+                unset($teamMembers[$teamIndexToRemove + 1]);
+                $team->members = json_encode($teamMembers);
+                $team->save();
+            }
+            $projects = Project::where('team_id', $team->id)->get();
+            foreach ($projects as $project) {
+                $projectMembers = json_decode($project->members, true);
+                $projectIndexToRemove = array_search($memberId, array_column($projectMembers, 'id'));
+                if ($projectIndexToRemove !== false) {
+                    // Remove the member from the organization
+                    unset($projectMembers[$projectIndexToRemove + 1]);
+                    $project->members = json_encode($projectMembers);
+                    $project->save();
+                }
+            }
+        }
+    }
 
         // Redirect back or to a specific route
         return redirect()->route('organizations.view')->with('success', 'Organization updated successfully');
     }
 
 
-    private function updateMembers($existingMembers, $newMembers)
-    {
-        $existingMembers = json_decode($existingMembers, true);
+// private function updateMembers($existingMembers, $newMembers)
+// {
+//     $existingMembers = json_decode($existingMembers, true);
 
-        // Remove members not included in the new list
-        $existingMembers = array_filter($existingMembers, function ($member) use ($newMembers) {
-            return in_array($member['id'], $newMembers);
-        });
+//     // Create an associative array of existing members for faster lookup
+//     $existingMembersMap = array_column($existingMembers, null, 'id');
+//     //make the $existingMembers null
 
-        // Add new members to the list
-        $usersToAdd = User::whereIn('id', $newMembers)->get(['id', 'name'])->toArray();
+//     // Update existing members' details or add new members
+//     foreach ($newMembers as $newMemberId) {
+//         $user = User::find($newMemberId);
+//        //add all the new members in  $existingMembers
+//     }
 
-        foreach ($usersToAdd as $user) {
-            $existingMembers[] = ['id' => $user['id'], 'name' => $user['name']];
-        }
 
-        // Encode the updated members array back to JSON
-        return json_encode($existingMembers);
+//     // Encode the updated members array back to JSON
+//     return json_encode($existingMembers);
+// }
+private function updateMembers($existingMembers, $newMembers,$ownerId)
+{
+    // Make $existingMembers null
+    $existingMembers = null;
+
+    // Update existing members' details or add new members
+    foreach ($newMembers as $newMemberId) {
+        $user = User::find($newMemberId);
+        // Add all new members to $existingMembers
+        $existingMembers[$user->id] = ['id' => $user->id, 'name' => $user->name];
     }
+    $owner =  User::findOrFail($ownerId);
+    $existingMembers[$ownerId] = ['id' => $owner->id, 'name' => $owner->name];
+
+
+
+    // Encode the updated members array back to JSON
+    return json_encode($existingMembers);
+}
 
     public function destroy(Organization $organization)
     {
