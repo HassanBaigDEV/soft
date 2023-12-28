@@ -188,9 +188,8 @@
                                         <div class="modal-body">
                                             <!-- Add member form -->
                                             {{-- {{ route('organizations.add-member', ['organization' => $organization->id]) }} --}}
-                                            <form method="POST" action="{{ route('organizations.add-member', ['organizationId' => $organization->id]) }}">
-                                                @csrf
-                                                <div class="mb-3">
+                                          
+                                                {{-- <div class="mb-3">
                                                     <label for="searchMember" class="form-label">Search for a User</label>
                                                     <select class="form-control" id="searchMember" name="memberId" data-live-search="true">
                                                         @foreach (\App\Models\User::all() as $user)
@@ -198,9 +197,27 @@
                                                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                                                             @endif
                                                         @endforeach
-                                                    </select>                                                </div>
-                                                <button type="submit" class="btn btn-primary">Add Member</button>
-                                            </form>
+                                                    </select>                                           
+                                                </div> --}}
+                                                <!-- Replace the select with an input field -->
+                                                {{-- <form method="POST" action="{{ route('organizations.add-member', ['organizationId' => $organization->id]) }}">
+                                                    @csrf
+                                                    <div class="mb-3">
+                                                        <label for="searchMember" class="form-label">Search for a User</label>
+                                                        <input type="text" class="form-control" id="searchMember" placeholder="Search for a user" autocomplete="off">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Add Member</button>
+                                                </form> --}}
+                                                <form method="POST" action="{{ route('organizations.add-member', ['organizationId' => $organization->id]) }}">
+                                                    @csrf
+                                                    <div class="mb-3">
+                                                        <label for="searchMember" class="form-label">Search for a User</label>
+                                                        <input type="text" class="form-control" id="searchMember" name="searchMember" placeholder="Search for a user" autocomplete="off">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Add Member</button>
+                                                </form>
+
+                                               
                                         </div>
                                     </div>
                                 </div>
@@ -242,21 +259,43 @@
     </style>
 
 
-{{-- @section('scripts') --}}
-    <!-- Add your additional scripts here if needed -->
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <!-- Include Bootstrap Select CSS and JS files -->
-{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
-<!-- Add your additional scripts here if needed -->
-<script>
-    // Initialize Bootstrap Select
-    $(document).ready(function () {
-        $('#searchMember').selectpicker();
-    });
-</script> --}}
+<!-- Include Bootstrap Typeahead CSS and JS files -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
 
-    <script>
+<!-- Your custom scripts -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Bootstrap Select
+        $('#searchMember').selectpicker();
+
+        // Initialize Bootstrap Typeahead for suggestions
+        $('#searchMember').typeahead({
+            source: function (query, process) {
+                // Fetch user suggestions using fetch
+                fetch(`/users/search?query=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Process and return suggestions
+                        process(data);
+                        console.log(data);
+                        
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user suggestions:', error);
+                    });
+            }
+        });
+    });
+</script>
+<script>
         document.addEventListener('DOMContentLoaded', function () {
             const copyIcons = document.querySelectorAll('.copy-icon');
 

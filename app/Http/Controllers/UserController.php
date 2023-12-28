@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $users = User::where('name', 'like', "%{$query}%")
+            ->select('id', 'name')
+            ->get();
+
+        return response()->json($users);
+    }
 
     public function dashboard()
     {

@@ -23,6 +23,7 @@ use App\Models\Organization;
 Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+	Route::get('/', [UserController::class, 'dashboard'])->name('dashboard');
 
 
 	Route::get('profile', function () {
@@ -128,3 +129,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
 	Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 });
+
+// routes/web.php
+
+Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
